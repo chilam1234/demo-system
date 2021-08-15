@@ -11,6 +11,6 @@ const handler = nc<NextApiRequest, NextApiResponse>({ onError });
 
 dbConnect();
 
-handler.use(isAuthenticatedUser).put(updateProfile);
+handler.use(isAuthenticatedUser).patch(updateProfile);
 
 export default handler;

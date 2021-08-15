@@ -2,8 +2,8 @@ import React, { useEffect } from "react";
 import Link from "next/link";
 
 import { useDispatch, useSelector } from "react-redux";
-import { loadUser } from "../../redux/actions/userActions";
 import { signOut } from "next-auth/client";
+import { loadUserThunk } from "../../redux/actions/userAsyncThunkActions";
 
 const Header = () => {
   const dispatch = useDispatch();
@@ -12,7 +12,7 @@ const Header = () => {
 
   useEffect(() => {
     if (!user) {
-      dispatch(loadUser());
+      dispatch(loadUserThunk());
     }
   }, [dispatch, user]);
 
@@ -47,7 +47,10 @@ const Header = () => {
               >
                 <figure className="avatar avatar-nav">
                   <img
-                    src={user.avatar && user.avatar.url}
+                    src={
+                      (user.avatar && user.avatar.url) ??
+                      "/images/default_avatar.jpg"
+                    }
                     alt={user && user.name}
                     className="rounded-circle"
                   />

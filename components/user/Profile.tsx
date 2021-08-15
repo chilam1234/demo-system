@@ -6,8 +6,11 @@ import ButtonLoader from "../layout/ButtonLoader";
 import Loader from "../layout/Loader";
 
 import { useDispatch, useSelector } from "react-redux";
-import { updateProfile, clearErrors } from "../../redux/actions/userActions";
-import { UPDATE_PROFILE_RESET } from "../../redux/constants/userConstants";
+import {
+  updateUserThunk,
+  loadUserThunk,
+} from "../../redux/actions/userAsyncThunkActions";
+import { userSlice } from "../../redux/slices/userSlices";
 
 const Profile = () => {
   const dispatch = useDispatch();
@@ -19,6 +22,8 @@ const Profile = () => {
     password: "",
   });
 
+  console.log("user", user);
+
   const { name, email, password } = user;
 
   const [avatar, setAvatar] = useState("");
@@ -27,7 +32,7 @@ const Profile = () => {
   );
 
   const { user: loadedUser, loading } = useSelector(
-    (state) => state.loadedUser
+    (state) => state.loadedUser.user
   );
   const {
     error,
@@ -41,17 +46,19 @@ const Profile = () => {
         name: loadedUser.name,
         email: loadedUser.email,
       });
-      setAvatarPreview(loadedUser.avatar.url);
+      setAvatarPreview(loadedUser.avatar?.url ?? undefined);
+    } else {
+      dispatch(loadUserThunk());
     }
 
     if (error) {
       toast.error(error);
-      dispatch(clearErrors());
+      dispatch(userSlice.actions.clearErrors());
     }
 
     if (isUpdated) {
+      dispatch(userSlice.actions.resetMyUpdatedUser());
       router.push("/");
-      dispatch({ type: UPDATE_PROFILE_RESET });
     }
   }, [dispatch, isUpdated, error, loadedUser]);
 
@@ -65,7 +72,7 @@ const Profile = () => {
       avatar,
     };
 
-    dispatch(updateProfile(userData));
+    dispatch(updateUserThunk(userData));
   };
 
   const onChange = (e) => {
@@ -74,8 +81,8 @@ const Profile = () => {
 
       reader.onload = () => {
         if (reader.readyState === 2) {
-          setAvatar(reader.result);
-          setAvatarPreview(reader.result);
+          setAvatar(reader.result.toString());
+          setAvatarPreview(reader.result.toString());
         }
       };
       console.log(e.target.files);
@@ -104,18 +111,6 @@ const Profile = () => {
                     className="form-control"
                     name="name"
                     value={name}
-                    onChange={onChange}
-                  />
-                </div>
-
-                <div className="form-group">
-                  <label htmlFor="email_field">Email</label>
-                  <input
-                    type="email"
-                    id="email_field"
-                    className="form-control"
-                    name="email"
-                    value={email}
                     onChange={onChange}
                   />
                 </div>

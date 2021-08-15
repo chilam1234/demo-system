@@ -54,18 +54,16 @@ const updateProfile = async (req, res) => {
   const user = await User.findById(req.user._id);
 
   if (user) {
-    user.name = req.body.name;
-    user.email = req.body.email;
-
+    if (req.body.name) user.name = req.body.name;
     if (req.body.password) user.password = req.body.password;
   }
 
   // Update avatar
   if (req.body.avatar !== "") {
-    const image_id = user.avatar.public_id;
-
-    // Delete user previous image/avatar
-    await FileService.removeImage(image_id);
+    const image_id = user.avatar?.public_id ?? undefined;
+    if (image_id) {
+      await FileService.removeImage(image_id);
+    }
 
     const result = await FileService.uploadImage(req.body.avatar, {
       width: 150,

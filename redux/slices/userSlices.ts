@@ -1,266 +1,221 @@
 import { createSlice } from "@reduxjs/toolkit";
 import {
-  REGISTER_USER_REQUEST,
-  REGISTER_USER_SUCCESS,
-  REGISTER_USER_FAIL,
-  LOAD_USER_REQUEST,
-  LOAD_USER_SUCCESS,
-  LOAD_USER_FAIL,
-  UPDATE_PROFILE_REQUEST,
-  UPDATE_PROFILE_SUCCESS,
-  UPDATE_PROFILE_RESET,
-  UPDATE_PROFILE_FAIL,
-  FORGOT_PASSWORD_REQUEST,
-  FORGOT_PASSWORD_SUCCESS,
-  FORGOT_PASSWORD_FAIL,
-  RESET_PASSWORD_REQUEST,
-  RESET_PASSWORD_SUCCESS,
-  RESET_PASSWORD_FAIL,
-  ADMIN_USERS_REQUEST,
-  ADMIN_USERS_SUCCESS,
-  ADMIN_USERS_FAIL,
-  USER_DETAILS_REQUEST,
-  USER_DETAILS_SUCCESS,
-  USER_DETAILS_FAIL,
-  UPDATE_USER_REQUEST,
-  UPDATE_USER_SUCCESS,
-  UPDATE_USER_RESET,
-  UPDATE_USER_FAIL,
-  DELETE_USER_REQUEST,
-  DELETE_USER_SUCCESS,
-  DELETE_USER_RESET,
-  DELETE_USER_FAIL,
-  CLEAR_ERRORS,
-} from "../constants/userConstants";
+  deleteUserThunk,
+  forgotPasswordThunk,
+  getAdminUsersThunk,
+  getUserDetailsThunk,
+  loadUserThunk,
+  registerUserThunk,
+  resetPasswordThunk,
+  updateUserByIdThunk,
+  updateUserThunk,
+} from "../actions/userAsyncThunkActions";
 
-const authSlice = createSlice({
+export const authSlice = createSlice({
   name: "auth",
-  initialState: { user: null, loading: false, success: false },
+  initialState: { user: null, loading: false, success: false, error: null },
   reducers: {
-    registerUserRequest(state, action) {
-      state.loading = true;
+    clearErrors(state) {
+      state.error = null;
     },
+    resetSuccess(state) {
+      state.success = false;
+    },
+  },
+  extraReducers: (builder) => {
+    builder.addCase(registerUserThunk.pending, (state) => {
+      state.loading = true;
+    });
+    builder.addCase(registerUserThunk.fulfilled, (state) => {
+      state.loading = false;
+      state.success = true;
+    });
+    builder.addCase(registerUserThunk.rejected, (state, action) => {
+      console.log("testing error");
+      state.loading = false;
+      state.error = action.payload;
+    });
   },
 });
 
-// Auth reducer
-export const authReducer = (state = { user: null }, action) => {
-  switch (action.type) {
-    case REGISTER_USER_REQUEST:
-      return {
-        loading: true,
-      };
+export const myUserSlice = createSlice({
+  name: "myUser",
+  initialState: {
+    user: null,
+    loading: true,
+    error: null,
+    isAuthenticated: false,
+  },
+  reducers: {
+    clearErrors(state) {
+      state.error = null;
+    },
+  },
+  extraReducers: (builder) => {
+    builder.addCase(loadUserThunk.pending, (state) => {
+      state.loading = true;
+      state.isAuthenticated = false;
+    });
+    builder.addCase(loadUserThunk.fulfilled, (state, action) => {
+      state.loading = false;
+      state.isAuthenticated = true;
+      state.user = action.payload;
+    });
+    builder.addCase(loadUserThunk.rejected, (state, action) => {
+      state.loading = false;
+      state.isAuthenticated = false;
+      state.error = action.payload;
+    });
+  },
+});
 
-    case REGISTER_USER_SUCCESS:
-      return {
-        loading: false,
-        success: true,
-      };
+export const userSlice = createSlice({
+  name: "user",
+  initialState: {
+    loading: false,
+    error: null,
+    isUpdated: false,
+    isDeleted: false,
+  },
+  reducers: {
+    clearErrors(state) {
+      state.error = null;
+    },
+    resetMyUpdatedUser(state) {
+      state.isUpdated = false;
+      state.loading = false;
+    },
+    resetUpdatedUser(state) {
+      state.isUpdated = false;
+      state.loading = false;
+    },
+    resetDeletedUser(state) {
+      state.isDeleted = false;
+      state.loading = false;
+    },
+  },
+  extraReducers: (builder) => {
+    builder.addCase(deleteUserThunk.fulfilled, (state, action) => {
+      state.loading = false;
+      state.isDeleted = action.payload;
+    });
+    builder.addMatcher(
+      (action) =>
+        action.type === updateUserThunk.pending.type ||
+        action.type === updateUserByIdThunk.pending.type ||
+        action.type === deleteUserThunk.pending.type,
+      (state) => {
+        state.loading = true;
+      }
+    );
 
-    case REGISTER_USER_FAIL:
-      return {
-        loading: false,
-        error: action.payload,
-      };
+    builder.addMatcher(
+      (action) =>
+        action.type === updateUserThunk.fulfilled.type ||
+        action.type === updateUserByIdThunk.fulfilled.type,
+      (state, action) => {
+        state.loading = false;
+        state.isUpdated = action.payload;
+      }
+    );
+    builder.addMatcher(
+      (action) =>
+        action.type === updateUserThunk.rejected.type ||
+        action.type === updateUserByIdThunk.rejected.type ||
+        action.type === deleteUserThunk.rejected.type,
+      (state, action) => {
+        console.log("triggered");
+        state.loading = false;
+        state.error = action.payload;
+      }
+    );
+  },
+});
 
-    case CLEAR_ERRORS:
-      return {
-        ...state,
-        error: null,
-      };
+export const forgotPasswordSlice = createSlice({
+  name: "forgotPassword",
+  initialState: {
+    loading: true,
+    error: null,
+    message: null,
+    success: null,
+  },
+  reducers: {
+    clearErrors(state) {
+      state.error = null;
+    },
+  },
+  extraReducers: (builder) => {
+    builder.addCase(forgotPasswordThunk.fulfilled, (state, action) => {
+      state.loading = false;
+      state.message = action.payload;
+    });
+    builder.addCase(resetPasswordThunk.fulfilled, (state, action) => {
+      state.loading = false;
+      state.success = action.payload;
+    });
+    builder.addMatcher(
+      (action) =>
+        action.type === forgotPasswordThunk.pending.type ||
+        action.type === resetPasswordThunk.pending.type,
+      (state) => {
+        state.loading = true;
+      }
+    );
+    builder.addMatcher(
+      (action) =>
+        action.type === forgotPasswordThunk.rejected.type ||
+        action.type === resetPasswordThunk.rejected.type,
+      (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      }
+    );
+  },
+});
 
-    default:
-      return state;
-  }
-};
+export const adminUsersSlice = createSlice({
+  name: "allUsers",
+  initialState: { loading: false, users: [], error: null },
+  reducers: {
+    clearErrors(state) {
+      state.error = null;
+    },
+  },
+  extraReducers: (builder) => {
+    builder.addCase(getAdminUsersThunk.pending, (state) => {
+      state.loading = true;
+    });
+    builder.addCase(getAdminUsersThunk.fulfilled, (state, action) => {
+      state.loading = false;
+      state.users = action.payload;
+    });
+    builder.addCase(getAdminUsersThunk.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action.payload;
+    });
+  },
+});
 
-// Load user reducer
-export const loadedUserReducer = (
-  state = { loading: true, user: null },
-  action
-) => {
-  switch (action.type) {
-    case LOAD_USER_REQUEST:
-      return {
-        loading: true,
-        isAuthenticated: false,
-      };
-
-    case LOAD_USER_SUCCESS:
-      return {
-        loading: false,
-        isAuthenticated: true,
-        user: action.payload,
-      };
-
-    case LOAD_USER_FAIL:
-      return {
-        loading: false,
-        isAuthenticated: false,
-        error: action.payload,
-      };
-
-    case CLEAR_ERRORS:
-      return {
-        ...state,
-        error: null,
-      };
-
-    default:
-      return state;
-  }
-};
-
-// User reducer
-export const userReducer = (state = {}, action) => {
-  switch (action.type) {
-    case UPDATE_PROFILE_REQUEST:
-    case UPDATE_USER_REQUEST:
-    case DELETE_USER_REQUEST:
-      return {
-        loading: true,
-      };
-
-    case UPDATE_PROFILE_SUCCESS:
-    case UPDATE_USER_SUCCESS:
-      return {
-        loading: false,
-        isUpdated: action.payload,
-      };
-
-    case DELETE_USER_SUCCESS:
-      return {
-        loading: false,
-        isDeleted: action.payload,
-      };
-
-    case UPDATE_PROFILE_RESET:
-    case UPDATE_USER_RESET:
-      return {
-        loading: false,
-        isUpdated: false,
-      };
-
-    case DELETE_USER_RESET:
-      return {
-        loading: false,
-        isDeleted: false,
-      };
-
-    case UPDATE_PROFILE_FAIL:
-    case UPDATE_USER_FAIL:
-    case DELETE_USER_FAIL:
-      return {
-        loading: false,
-        error: action.payload,
-      };
-
-    case CLEAR_ERRORS:
-      return {
-        ...state,
-        error: null,
-      };
-
-    default:
-      return state;
-  }
-};
-
-export const forgotPasswordReducer = (state = {}, action) => {
-  switch (action.type) {
-    case FORGOT_PASSWORD_REQUEST:
-    case RESET_PASSWORD_REQUEST:
-      return {
-        loading: true,
-      };
-
-    case FORGOT_PASSWORD_SUCCESS:
-      return {
-        loading: false,
-        message: action.payload,
-      };
-
-    case RESET_PASSWORD_SUCCESS:
-      return {
-        loading: false,
-        success: action.payload,
-      };
-
-    case FORGOT_PASSWORD_FAIL:
-    case RESET_PASSWORD_FAIL:
-      return {
-        loading: false,
-        error: action.payload,
-      };
-
-    case CLEAR_ERRORS:
-      return {
-        ...state,
-        error: null,
-      };
-
-    default:
-      return state;
-  }
-};
-
-export const allUsersReducer = (state = { users: [] }, action) => {
-  switch (action.type) {
-    case ADMIN_USERS_REQUEST:
-      return {
-        loading: true,
-      };
-
-    case ADMIN_USERS_SUCCESS:
-      return {
-        loading: false,
-        users: action.payload,
-      };
-
-    case ADMIN_USERS_FAIL:
-      return {
-        loading: false,
-        error: action.payload,
-      };
-
-    case CLEAR_ERRORS:
-      return {
-        ...state,
-        error: null,
-      };
-
-    default:
-      return state;
-  }
-};
-
-export const userDetailsReducer = (state = { user: {} }, action) => {
-  switch (action.type) {
-    case USER_DETAILS_REQUEST:
-      return {
-        ...state,
-        loading: true,
-      };
-
-    case USER_DETAILS_SUCCESS:
-      return {
-        loading: false,
-        user: action.payload,
-      };
-
-    case USER_DETAILS_FAIL:
-      return {
-        loading: false,
-        error: action.payload,
-      };
-
-    case CLEAR_ERRORS:
-      return {
-        ...state,
-        error: null,
-      };
-
-    default:
-      return state;
-  }
-};
+export const userDetailsSlice = createSlice({
+  name: "userDetails",
+  initialState: { loading: false, user: null, error: null },
+  reducers: {
+    clearErrors(state) {
+      state.error = null;
+    },
+  },
+  extraReducers: (builder) => {
+    builder.addCase(getUserDetailsThunk.pending, (state) => {
+      state.loading = true;
+    });
+    builder.addCase(getUserDetailsThunk.fulfilled, (state, action) => {
+      state.loading = false;
+      state.user = action.payload;
+    });
+    builder.addCase(getUserDetailsThunk.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action.payload;
+    });
+  },
+});

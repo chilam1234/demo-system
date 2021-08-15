@@ -23,6 +23,7 @@ import { CHECK_BOOKING_RESET } from "../../redux/constants/bookingConstants";
 
 import getStripe from "../../utils/getStripe";
 import axios from "axios";
+import { RootState } from "../../redux/store";
 
 const RoomDetails = () => {
   const [checkInDate, setCheckInDate] = useState<Date>();
@@ -33,10 +34,10 @@ const RoomDetails = () => {
   const dispatch = useDispatch();
   const router = useRouter();
 
-  const { dates } = useSelector((state) => state.bookedDates);
-  const { user } = useSelector((state) => state.loadedUser);
-  const { room, error } = useSelector((state) => state.roomDetails);
-  const { available, loading: bookingLoading } = useSelector(
+  const { dates } = useSelector<RootState>((state) => state.bookedDates);
+  const { user } = useSelector<RootState>((state) => state.loadedUser);
+  const { room, error } = useSelector<RootState>((state) => state.roomDetails);
+  const { available, loading: bookingLoading } = useSelector<RootState>(
     (state) => state.checkBooking
   );
 
@@ -86,8 +87,6 @@ const RoomDetails = () => {
       };
 
       const { data } = await axios.post("/api/bookings", bookingData, config);
-
-      console.log(data);
     } catch (error) {
       console.log(error.response);
     }
@@ -97,7 +96,6 @@ const RoomDetails = () => {
     setPaymentLoading(true);
 
     const amount = pricePerNight * daysOfStay;
-    console.log("amount", amount);
 
     try {
       const link = `/api/checkout_session/${id}?checkInDate=${checkInDate.toISOString()}&checkOutDate=${checkOutDate.toISOString()}&daysOfStay=${daysOfStay}`;
