@@ -333,43 +333,6 @@ nav {
   display: inline-block;
 }
 
-/* Reviews */
-.review_user {
-  font-size: 0.8rem;
-  color: grey;
-}
-
-.rating {
-  margin-top: 10rem;
-}
-
-.stars {
-  height: 100px;
-  display: flex;
-  align-items: center;
-  padding-left: 0;
-}
-
-.star {
-  display: inline;
-  list-style: none;
-  font-size: 3rem;
-  padding-left: 0.9rem;
-  color: #e3e3e3;
-}
-
-.star:first-child {
-  padding-left: 0;
-}
-
-.red {
-  color: #e61e4d;
-}
-
-.light-red {
-  color: #f74f77;
-}
-
 /* Footer */
 footer {
   margin-top: 6rem;

@@ -13,9 +13,7 @@ interface Room extends Document {
   petsAllowed: boolean;
   roomCleaning: boolean;
   ratings?: number;
-  numOfReviews?: number;
   category: string;
-  reviews?: any[];
   user?: any;
   images: {
     public_id: string;
@@ -100,27 +98,6 @@ const roomSchema = new Schema({
       message: "Please select correct category for room",
     },
   },
-  reviews: [
-    {
-      user: {
-        type: Schema.Types.ObjectId,
-        ref: "User",
-        required: true,
-      },
-      name: {
-        type: String,
-        required: true,
-      },
-      rating: {
-        type: Number,
-        required: true,
-      },
-      comment: {
-        type: String,
-        required: true,
-      },
-    },
-  ],
   user: {
     type: Schema.Types.ObjectId,
     ref: "User",

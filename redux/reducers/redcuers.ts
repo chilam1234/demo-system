@@ -3,17 +3,11 @@ import { combineReducers } from "redux";
 import {
   allRoomsReducer,
   roomDetailsReducer,
-  newReviewReducer,
-  checkReviewReducer,
   newRoomReducer,
   roomReducer,
-  roomReviewsReducer,
-  reviewReducer,
 } from "./roomReducers";
 
 import {
-  userReducer,
-  loadedUserReducer,
   forgotPasswordReducer,
   allUsersReducer,
   userDetailsReducer,
@@ -35,7 +29,6 @@ const reducer = combineReducers({
   roomDetails: roomDetailsReducer,
   room: roomReducer,
   auth: authSlice.reducer,
-  //user: userReducer,
   user: userSlice.reducer,
   loadedUser: myUserSlice.reducer,
   allUsers: allUsersReducer,
@@ -46,10 +39,6 @@ const reducer = combineReducers({
   bookings: bookingsReducer,
   booking: bookingReducer,
   bookingDetails: bookingDetailsReducer,
-  newReview: newReviewReducer,
-  checkReview: checkReviewReducer,
-  roomReviews: roomReviewsReducer,
-  review: reviewReducer,
 });
 
 export default reducer;

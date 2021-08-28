@@ -10,9 +10,12 @@ const commonConfigHeader = {
 export const registerUserThunk = createAsyncThunk<any, any>(
   "users/register",
   async (userData, { rejectWithValue }) => {
-    const config = commonConfigHeader;
     try {
-      const response = await axios.post("/api/auth/register", userData, config);
+      const response = await axios.post(
+        "/api/auth/register",
+        userData,
+        commonConfigHeader
+      );
       return response.data;
     } catch (error) {
       throw rejectWithValue(error.response.data.message);
@@ -36,9 +39,11 @@ export const updateUserThunk = createAsyncThunk(
   "users/updateMe",
   async (userData, { rejectWithValue }) => {
     try {
-      const config = commonConfigHeader;
-
-      const { data } = await axios.patch("/api/me/update", userData, config);
+      const { data } = await axios.patch(
+        "/api/me/update",
+        userData,
+        commonConfigHeader
+      );
       return data;
     } catch (error) {
       throw rejectWithValue(error.response.data.message);
@@ -50,9 +55,11 @@ export const forgotPasswordThunk = createAsyncThunk(
   "users/forgotPassword",
   async (email, { rejectWithValue }) => {
     try {
-      const config = commonConfigHeader;
-
-      const { data } = await axios.post("/api/password/forgot", email, config);
+      const { data } = await axios.post(
+        "/api/password/forgot",
+        email,
+        commonConfigHeader
+      );
       return data;
     } catch (error) {
       throw rejectWithValue(error.response.data.message);

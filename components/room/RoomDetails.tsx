@@ -4,8 +4,6 @@ import Head from "next/head";
 import Image from "next/image";
 
 import RoomFeatures from "./RoomFeatures";
-import NewReview from "../review/NewReview";
-import ListReviews from "../review/ListReviews";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
@@ -17,19 +15,17 @@ import { clearErrors } from "../../redux/actions/roomActions";
 
 import {
   checkBooking,
+  createBooking,
   getBookedDates,
 } from "../../redux/actions/bookingActions";
 import { CHECK_BOOKING_RESET } from "../../redux/constants/bookingConstants";
 
-import getStripe from "../../utils/getStripe";
-import axios from "axios";
 import { RootState } from "../../redux/store";
 
 const RoomDetails = () => {
   const [checkInDate, setCheckInDate] = useState<Date>();
   const [checkOutDate, setCheckOutDate] = useState<Date>();
   const [daysOfStay, setDaysOfStay] = useState<number>(0);
-  const [paymentLoading, setPaymentLoading] = useState(false);
 
   const dispatch = useDispatch();
   const router = useRouter();
@@ -37,6 +33,9 @@ const RoomDetails = () => {
   const { dates } = useSelector<RootState>((state) => state.bookedDates);
   const { user } = useSelector<RootState>((state) => state.loadedUser);
   const { room, error } = useSelector<RootState>((state) => state.roomDetails);
+  const { error: createBookingError, booking } = useSelector<RootState>(
+    (state) => state.booking
+  );
   const { available, loading: bookingLoading } = useSelector<RootState>(
     (state) => state.checkBooking
   );
@@ -66,9 +65,9 @@ const RoomDetails = () => {
 
   const { id } = router.query;
 
-  const newBookingHandler = async () => {
+  const bookRoom = async (id) => {
     const bookingData = {
-      room: router.query.id,
+      room: id,
       checkInDate,
       checkOutDate,
       daysOfStay,
@@ -79,40 +78,13 @@ const RoomDetails = () => {
       },
     };
 
-    try {
-      const config = {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      };
-
-      const { data } = await axios.post("/api/bookings", bookingData, config);
-    } catch (error) {
-      console.log(error.response);
+    dispatch(createBooking(bookingData));
+    if (createBookingError) {
+      toast.error(createBookingError);
+      dispatch(clearErrors());
     }
-  };
-
-  const bookRoom = async (id, pricePerNight) => {
-    setPaymentLoading(true);
-
-    const amount = pricePerNight * daysOfStay;
-
-    try {
-      const link = `/api/checkout_session/${id}?checkInDate=${checkInDate.toISOString()}&checkOutDate=${checkOutDate.toISOString()}&daysOfStay=${daysOfStay}`;
-
-      const { data } = await axios.get(link, { params: { amount } });
-
-      const stripe = await getStripe();
-
-      // Redirect to checkout
-      stripe.redirectToCheckout({ sessionId: data.id });
-
-      setPaymentLoading(false);
-    } catch (error) {
-      setPaymentLoading(false);
-      console.log(error);
-      toast.error(error.message);
-    }
+    toast.info("successfully booked");
+    router.push("../bookings/me");
   };
 
   useEffect(() => {
@@ -135,16 +107,6 @@ const RoomDetails = () => {
       <div className="container container-fluid">
         <h2 className="mt-5">{room.name}</h2>
         <p>{room.address}</p>
-
-        <div className="ratings mt-auto mb-3">
-          <div className="rating-outer">
-            <div
-              className="rating-inner"
-              style={{ width: `${(room.ratings / 5) * 100}%` }}
-            ></div>
-          </div>
-          <span id="no_of_reviews">({room.numOfReviews} Reviews)</span>
-        </div>
 
         <Carousel pause="hover">
           {room.images &&
@@ -213,8 +175,8 @@ const RoomDetails = () => {
               {available && user && (
                 <button
                   className="btn btn-block py-3 booking-btn"
-                  onClick={() => bookRoom(room._id, room.pricePerNight)}
-                  disabled={bookingLoading || paymentLoading ? true : false}
+                  onClick={() => bookRoom(room._id)}
+                  disabled={bookingLoading ? true : false}
                 >
                   Pay - ${daysOfStay * room.pricePerNight}
                 </button>
@@ -222,16 +184,6 @@ const RoomDetails = () => {
             </div>
           </div>
         </div>
-
-        <NewReview />
-
-        {room.reviews && room.reviews.length > 0 ? (
-          <ListReviews reviews={room.reviews} />
-        ) : (
-          <p>
-            <b>No Reviews on this room</b>
-          </p>
-        )}
       </div>
     </>
   );

@@ -18,6 +18,9 @@ import {
   DELETE_BOOKING_SUCCESS,
   DELETE_BOOKING_FAIL,
   CLEAR_ERRORS,
+  NEW_BOOKING_REQUEST,
+  NEW_BOOKING_SUCCESS,
+  NEW_BOOKING_FAIL,
 } from "../constants/bookingConstants";
 
 export const checkBooking =
@@ -96,6 +99,30 @@ export const getAdminBookings = () => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: ADMIN_BOOKINGS_FAIL,
+      payload: error.response.data.message,
+    });
+  }
+};
+
+export const createBooking = (newBooking) => async (dispatch) => {
+  const config = {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  };
+  try {
+    dispatch({ type: NEW_BOOKING_REQUEST });
+    console.log("testing");
+
+    const { data } = await axios.post(`/api/bookings`, newBooking, config);
+
+    dispatch({
+      type: NEW_BOOKING_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    dispatch({
+      type: NEW_BOOKING_FAIL,
       payload: error.response.data.message,
     });
   }

@@ -1,8 +1,7 @@
 import Booking from "../models/booking";
 
 import ErrorHandler from "../utils/errorHandler";
-
-import Moment from "moment";
+import * as Moment from "moment";
 import { extendMoment } from "moment-range";
 
 const moment = extendMoment(Moment);

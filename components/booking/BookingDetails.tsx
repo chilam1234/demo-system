@@ -11,7 +11,6 @@ const BookingDetails = () => {
   const dispatch = useDispatch();
 
   const { booking, error } = useSelector((state) => state.bookingDetails);
-  const { user } = useSelector((state) => state.loadedUser);
 
   useEffect(() => {
     if (error) {
@@ -61,20 +60,6 @@ const BookingDetails = () => {
 
               <hr />
 
-              <h4 className="my-4">Payment Status</h4>
-              <p className={isPaid ? "greenColor" : "redColor"}>
-                <b>{isPaid ? "Paid" : "Not Paid"}</b>
-              </p>
-
-              {user && user.role === "admin" && (
-                <>
-                  <h4 className="my-4">Stripe Payment ID</h4>
-                  <p className="redColor">
-                    <b>{booking.paymentInfo.id}</b>
-                  </p>
-                </>
-              )}
-
               <h4 className="mt-5 mb-4">Booked Room:</h4>
 
               <hr />
@@ -93,10 +78,6 @@ const BookingDetails = () => {
                     <Link href={`/room/${booking.room._id}`}>
                       {booking.room.name}
                     </Link>
-                  </div>
-
-                  <div className="col-4 col-lg-2 mt-4 mt-lg-0">
-                    <p>${booking.room.pricePerNight}</p>
                   </div>
 
                   <div className="col-4 col-lg-3 mt-4 mt-lg-0">

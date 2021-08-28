@@ -26,15 +26,6 @@ AWS_SESSION_TOKEN
     SMTP_FROM_NAME: "",
 ```
 
-3. set up stripe webhook
-strip doc[https://stripe.com/docs/webhooks/test]
-
-```bash
-    STRIPE_WEBHOOK_SECRET: "",
-    STRIPE_API_KEY: "",
-    STRIPE_SECRET_KEY:""
-```
-
 ## Getting Started
 
 First, run the development server:

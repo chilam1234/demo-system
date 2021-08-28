@@ -17,6 +17,9 @@ import {
   DELETE_BOOKING_RESET,
   DELETE_BOOKING_FAIL,
   CLEAR_ERRORS,
+  NEW_BOOKING_FAIL,
+  NEW_BOOKING_REQUEST,
+  NEW_BOOKING_SUCCESS,
 } from "../constants/bookingConstants";
 import { Action } from "./types/action";
 
@@ -145,6 +148,23 @@ export const bookingDetailsReducer = (state = { booking: {} }, action) => {
 
 export const bookingReducer = (state = {}, action) => {
   switch (action.type) {
+    case NEW_BOOKING_REQUEST:
+      return {
+        loading: true,
+      };
+
+    case NEW_BOOKING_SUCCESS:
+      return {
+        loading: false,
+        booking: action.payload,
+      };
+
+    case NEW_BOOKING_FAIL:
+      return {
+        loading: false,
+        error: action.payload,
+      };
+
     case DELETE_BOOKING_REQUEST:
       return {
         loading: true,
