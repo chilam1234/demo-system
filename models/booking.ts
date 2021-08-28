@@ -5,15 +5,8 @@ import User from "../models/user";
 interface Booking extends Document {
   room: typeof Room;
   user: typeof User;
-  checkInDate: Date;
-  checkoutDate: Date;
-  amountPaid: number;
-  daysOfStay: number;
-  paymentInfo: {
-    id: string;
-    status: string;
-  };
-  paidAt: Date;
+  startDateTime: Date;
+  endDateTime: Date;
   createdAt: Date;
 }
 const bookingSchema = new mongoose.Schema<Booking>({
@@ -27,33 +20,11 @@ const bookingSchema = new mongoose.Schema<Booking>({
     required: true,
     ref: "User",
   },
-  checkInDate: {
+  startDateTime: {
     type: Date,
     required: true,
   },
-  checkOutDate: {
-    type: Date,
-    required: true,
-  },
-  amountPaid: {
-    type: Number,
-    required: true,
-  },
-  daysOfStay: {
-    type: Number,
-    required: true,
-  },
-  paymentInfo: {
-    id: {
-      type: String,
-      required: true,
-    },
-    status: {
-      type: String,
-      required: true,
-    },
-  },
-  paidAt: {
+  endDateTime: {
     type: Date,
     required: true,
   },

@@ -19,9 +19,6 @@ const BookingDetails = () => {
     }
   }, [dispatch, booking]);
 
-  const isPaid =
-    booking.paymentInfo && booking.paymentInfo.status === "paid" ? true : false;
-
   return (
     <div className="container">
       <div className="row d-flex justify-content-between">
@@ -37,25 +34,18 @@ const BookingDetails = () => {
               <p>
                 <b>Email:</b> {booking.user && booking.user.email}
               </p>
-              <p>
-                <b>Amount:</b> ${booking.amountPaid}
-              </p>
 
               <hr />
 
               <h4 className="mb-4">Booking Info</h4>
               <p>
                 <b>Check In:</b>{" "}
-                {new Date(booking.checkInDate).toLocaleString("en-US")}
+                {new Date(booking.startDateTime).toLocaleString("en-US")}
               </p>
 
               <p>
                 <b>Check Out:</b>{" "}
-                {new Date(booking.checkOutDate).toLocaleString("en-US")}
-              </p>
-
-              <p>
-                <b>Days of Stay:</b> {booking.daysOfStay}
+                {new Date(booking.endDateTime).toLocaleString("en-US")}
               </p>
 
               <hr />
@@ -78,10 +68,6 @@ const BookingDetails = () => {
                     <Link href={`/room/${booking.room._id}`}>
                       {booking.room.name}
                     </Link>
-                  </div>
-
-                  <div className="col-4 col-lg-3 mt-4 mt-lg-0">
-                    <p>{booking.daysOfStay} Day(s)</p>
                   </div>
                 </div>
               </div>

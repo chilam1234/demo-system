@@ -3,7 +3,6 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 
 import { MDBDataTable } from "mdbreact";
-import easyinvoice from "easyinvoice";
 
 import Loader from "../layout/Loader";
 
@@ -12,7 +11,7 @@ import { toast } from "react-toastify";
 
 import {
   getAdminBookings,
-  deleteBooking,
+  deleteBookingByAdmin,
   clearErrors,
 } from "../../redux/actions/bookingActions";
 import { DELETE_BOOKING_RESET } from "../../redux/constants/bookingConstants";
@@ -57,18 +56,13 @@ const AllBookings = () => {
           sort: "asc",
         },
         {
-          label: "Check In",
-          field: "checkIn",
+          label: "start",
+          field: "startDateTime",
           sort: "asc",
         },
         {
-          label: "Check Out",
-          field: "checkOut",
-          sort: "asc",
-        },
-        {
-          label: "Amount Paid",
-          field: "amount",
+          label: "end",
+          field: "endDateTime",
           sort: "asc",
         },
         {
@@ -84,9 +78,11 @@ const AllBookings = () => {
       bookings.forEach((booking) => {
         data.rows.push({
           id: booking._id,
-          checkIn: new Date(booking.checkInDate).toLocaleString("en-US"),
-          checkOut: new Date(booking.checkOutDate).toLocaleString("en-US"),
-          amount: `$${booking.amountPaid}`,
+          name: booking.room.name,
+          startDateTime: new Date(booking.startDateTime).toLocaleString(
+            "en-US"
+          ),
+          endDateTime: new Date(booking.endDateTime).toLocaleString("en-US"),
           actions: (
             <>
               <Link href={`/admin/bookings/${booking._id}`}>
@@ -94,13 +90,6 @@ const AllBookings = () => {
                   <i className="fa fa-eye"></i>
                 </a>
               </Link>
-
-              <button
-                className="btn btn-success mx-2"
-                onClick={() => downloadInvoice(booking)}
-              >
-                <i className="fa fa-download"></i>
-              </button>
 
               <button
                 className="btn btn-danger mx-2"
@@ -117,53 +106,7 @@ const AllBookings = () => {
   };
 
   const deleteBookingHandler = (id) => {
-    dispatch(deleteBooking(id));
-  };
-
-  const downloadInvoice = async (booking) => {
-    const data = {
-      documentTitle: "Booking INVOICE", //Defaults to INVOICE
-      currency: "USD",
-      taxNotation: "vat", //or gst
-      marginTop: 25,
-      marginRight: 25,
-      marginLeft: 25,
-      marginBottom: 25,
-      logo: "https://res.cloudinary.com/myDemo/image/upload/v1617904918/myDemo/myDemo_logo_cbgjzv.png",
-      sender: {
-        company: "Cool Company",
-        address: "13th Street. 47 W 13th St",
-        zip: "10001",
-        city: "New York",
-        country: "United States",
-      },
-      client: {
-        company: `${booking.user.name}`,
-        address: `${booking.user.email}`,
-        zip: "",
-        city: `Check In: ${new Date(booking.checkInDate).toLocaleString(
-          "en-US"
-        )}`,
-        country: `Check In: ${new Date(booking.checkOutDate).toLocaleString(
-          "en-US"
-        )}`,
-      },
-      invoiceNumber: `${booking._id}`,
-      invoiceDate: `${new Date(Date.now()).toLocaleString("en-US")}`,
-      products: [
-        {
-          quantity: `${booking.daysOfStay}`,
-          description: `${booking.room.name}`,
-          tax: 0,
-          price: booking.room.pricePerNight,
-        },
-      ],
-      bottomNotice:
-        "This is auto generated Invoice of your booking on Cool Company.",
-    };
-
-    const result = await easyinvoice.createInvoice(data);
-    easyinvoice.download(`invoice_${booking._id}.pdf`, result.pdf);
+    dispatch(deleteBookingByAdmin(id));
   };
 
   return (

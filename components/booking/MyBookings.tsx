@@ -2,24 +2,45 @@ import React, { useEffect } from "react";
 import Link from "next/link";
 
 import { MDBDataTable } from "mdbreact";
-import easyinvoice from "easyinvoice";
+import { useRouter } from "next/router";
 
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 
-import { clearErrors } from "../../redux/actions/bookingActions";
+import { clearErrors, deleteBooking } from "../../redux/actions/bookingActions";
+import { DELETE_BOOKING_RESET } from "../../redux/constants/bookingConstants";
+import { RootState } from "../../redux/store";
 
 const MyBookings = () => {
   const dispatch = useDispatch();
+  const router = useRouter();
 
-  const { bookings, error } = useSelector((state) => state.bookings);
+  const { bookings, error } = useSelector((state: RootState) => state.bookings);
+  const { isDeleted, error: deleteError } = useSelector(
+    (state: RootState) => state.booking
+  );
 
   useEffect(() => {
     if (error) {
       toast.error(error);
       dispatch(clearErrors());
     }
-  }, [dispatch]);
+
+    if (deleteError) {
+      toast.error(deleteError);
+      dispatch(clearErrors());
+    }
+
+    if (isDeleted) {
+      router.push("/bookings/me");
+      toast.info("Successfully Deleted");
+      dispatch({ type: DELETE_BOOKING_RESET });
+    }
+  }, [dispatch, deleteError, isDeleted]);
+
+  const deleteBookingHandler = (id) => {
+    dispatch(deleteBooking(id));
+  };
 
   const setBookings = () => {
     const data = {
@@ -30,13 +51,18 @@ const MyBookings = () => {
           sort: "asc",
         },
         {
-          label: "Check In",
-          field: "checkIn",
+          label: "Room",
+          field: "name",
           sort: "asc",
         },
         {
-          label: "Check Out",
-          field: "checkOut",
+          label: "Start",
+          field: "startDateTime",
+          sort: "asc",
+        },
+        {
+          label: "End",
+          field: "endDateTime",
           sort: "asc",
         },
         {
@@ -52,9 +78,11 @@ const MyBookings = () => {
       bookings.forEach((booking) => {
         data.rows.push({
           id: booking._id,
-          checkIn: new Date(booking.checkInDate).toLocaleString("en-US"),
-          checkOut: new Date(booking.checkOutDate).toLocaleString("en-US"),
-          amount: `$${booking.amountPaid}`,
+          name: booking.room.name,
+          startDateTime: new Date(booking.startDateTime).toLocaleString(
+            "en-US"
+          ),
+          endDateTime: new Date(booking.endDateTime).toLocaleString("en-US"),
           actions: (
             <>
               <Link href={`/bookings/${booking._id}`}>
@@ -62,6 +90,12 @@ const MyBookings = () => {
                   <i className="fa fa-eye"></i>
                 </a>
               </Link>
+              <button
+                className="btn btn-danger mx-2"
+                onClick={() => deleteBookingHandler(booking._id)}
+              >
+                <i className="fa fa-trash"></i>
+              </button>
             </>
           ),
         });

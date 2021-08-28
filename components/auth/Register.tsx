@@ -16,9 +16,10 @@ const Register = () => {
     name: "",
     email: "",
     password: "",
+    company: "Cola",
   });
 
-  const { name, email, password } = user;
+  const { name, email, password, company } = user;
 
   const [avatar, setAvatar] = useState("");
   const [avatarPreview, setAvatarPreview] = useState(
@@ -47,7 +48,9 @@ const Register = () => {
       email,
       password,
       avatar,
+      company,
     };
+    console.log("testing", userData);
 
     dispatch(registerUserThunk(userData));
   };
@@ -66,6 +69,7 @@ const Register = () => {
       reader.readAsDataURL(e.target.files[0]);
     } else {
       setUser({ ...user, [e.target.name]: e.target.value });
+      console.log(user);
     }
   };
 
@@ -74,7 +78,7 @@ const Register = () => {
       <div className="row wrapper">
         <div className="col-10 col-lg-5">
           <form className="shadow-lg" onSubmit={submitHandler}>
-            <h1 className="mb-3">Join Us</h1>
+            <h1 className="mb-3">Welcome</h1>
 
             <div className="form-group">
               <label htmlFor="name_field">Full Name</label>
@@ -110,6 +114,19 @@ const Register = () => {
                 value={password}
                 onChange={onChange}
               />
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="company">Company</label>
+              <select
+                id="company"
+                name="company"
+                className="form-control"
+                onChange={onChange}
+              >
+                <option value="Cola">Cola</option>
+                <option value="Pepsi">Pepsi</option>
+              </select>
             </div>
 
             <div className="form-group">

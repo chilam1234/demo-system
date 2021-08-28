@@ -24,11 +24,11 @@ import {
 } from "../constants/bookingConstants";
 
 export const checkBooking =
-  (roomId, checkInDate, checkOutDate) => async (dispatch) => {
+  (roomId, startDateTime, endDateTime) => async (dispatch) => {
     try {
       dispatch({ type: CHECK_BOOKING_REQUEST });
 
-      let link = `/api/bookings/check?roomId=${roomId}&checkInDate=${checkInDate}&checkOutDate=${checkOutDate}`;
+      let link = `/api/bookings/check?roomId=${roomId}&startDateTime=${startDateTime}&endDateTime=${endDateTime}`;
 
       const { data } = await axios.get(link);
 
@@ -128,11 +128,29 @@ export const createBooking = (newBooking) => async (dispatch) => {
   }
 };
 
-export const deleteBooking = (id) => async (dispatch) => {
+export const deleteBookingByAdmin = (id) => async (dispatch) => {
   try {
     dispatch({ type: DELETE_BOOKING_REQUEST });
 
     const { data } = await axios.delete(`/api/admin/bookings/${id}`);
+
+    dispatch({
+      type: DELETE_BOOKING_SUCCESS,
+      payload: data.success,
+    });
+  } catch (error) {
+    dispatch({
+      type: DELETE_BOOKING_FAIL,
+      payload: error.response.data.message,
+    });
+  }
+};
+
+export const deleteBooking = (id) => async (dispatch) => {
+  try {
+    dispatch({ type: DELETE_BOOKING_REQUEST });
+
+    const { data } = await axios.delete(`/api/bookings/${id}`);
 
     dispatch({
       type: DELETE_BOOKING_SUCCESS,

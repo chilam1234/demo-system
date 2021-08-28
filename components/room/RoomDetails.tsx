@@ -21,11 +21,11 @@ import {
 import { CHECK_BOOKING_RESET } from "../../redux/constants/bookingConstants";
 
 import { RootState } from "../../redux/store";
+import BookingCalendar from "../booking/BookingCalendar";
 
 const RoomDetails = () => {
-  const [checkInDate, setCheckInDate] = useState<Date>();
-  const [checkOutDate, setCheckOutDate] = useState<Date>();
-  const [daysOfStay, setDaysOfStay] = useState<number>(0);
+  const [startDateTime, setStartDateTime] = useState<Date>();
+  const [endDateTime, setEndDateTime] = useState<Date>();
 
   const dispatch = useDispatch();
   const router = useRouter();
@@ -33,7 +33,7 @@ const RoomDetails = () => {
   const { dates } = useSelector<RootState>((state) => state.bookedDates);
   const { user } = useSelector<RootState>((state) => state.loadedUser);
   const { room, error } = useSelector<RootState>((state) => state.roomDetails);
-  const { error: createBookingError, booking } = useSelector<RootState>(
+  const { error: createBookingError } = useSelector<RootState>(
     (state) => state.booking
   );
   const { available, loading: bookingLoading } = useSelector<RootState>(
@@ -46,19 +46,14 @@ const RoomDetails = () => {
   });
 
   const onChange = (dates: [Date, Date]) => {
-    const [checkInDate, checkOutDate] = dates;
+    const [startDateTime, endDateTime] = dates;
 
-    setCheckInDate(checkInDate);
-    setCheckOutDate(checkOutDate);
+    setStartDateTime(startDateTime);
+    setEndDateTime(endDateTime);
 
-    if (checkInDate && checkOutDate) {
-      const days = Math.floor(
-        (checkOutDate.getTime() - checkInDate.getTime()) / (3600 * 1000 * 24) +
-          1
-      );
-      setDaysOfStay(days);
+    if (startDateTime && endDateTime) {
       dispatch(
-        checkBooking(id, checkInDate.toISOString(), checkOutDate.toISOString())
+        checkBooking(id, startDateTime.toISOString(), endDateTime.toISOString())
       );
     }
   };
@@ -68,14 +63,8 @@ const RoomDetails = () => {
   const bookRoom = async (id) => {
     const bookingData = {
       room: id,
-      checkInDate,
-      checkOutDate,
-      daysOfStay,
-      amountPaid: 90,
-      paymentInfo: {
-        id: "STRIPE_PAYMENT_ID",
-        status: "STRIPE_PAYMENT_STATUS",
-      },
+      startDateTime,
+      endDateTime,
     };
 
     dispatch(createBooking(bookingData));
@@ -134,25 +123,19 @@ const RoomDetails = () => {
 
           <div className="col-12 col-md-6 col-lg-4">
             <div className="booking-card shadow-lg p-4">
-              <p className="price-per-night">
-                <b>${room.pricePerNight}</b> / night
-              </p>
-
-              <hr />
-
-              <p className="mt-5 mb-3">Pick Check In & Check Out Date</p>
-
+              <h3 className="mb-3">Select the time slot</h3>
               <DatePicker
                 className="w-100"
-                selected={checkInDate}
+                selected={startDateTime}
                 onChange={onChange}
-                startDate={checkInDate}
-                endDate={checkOutDate}
+                startDate={startDateTime}
+                endDate={endDateTime}
                 minDate={new Date()}
                 excludeDates={excludedDates}
-                selectsRange
-                inline
+                showTimeSelect
+                timeIntervals={60}
               />
+              <BookingCalendar />
 
               {available === true && (
                 <div className="alert alert-success my-3 font-weight-bold">
@@ -178,7 +161,7 @@ const RoomDetails = () => {
                   onClick={() => bookRoom(room._id)}
                   disabled={bookingLoading ? true : false}
                 >
-                  Pay - ${daysOfStay * room.pricePerNight}
+                  Book it now
                 </button>
               )}
             </div>

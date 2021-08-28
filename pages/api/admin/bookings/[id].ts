@@ -2,7 +2,7 @@ import nc from "next-connect";
 import { NextApiRequest, NextApiResponse } from "next";
 import dbConnect from "../../../../lib/dbConnect";
 
-import { deleteBooking } from "../../../../controllers/bookingControllers";
+import { deleteBookingByAdmin } from "../../../../controllers/bookingControllers";
 
 import onError from "../../../../middlewares/errors";
 import {
@@ -24,6 +24,8 @@ dbConnect();
  *     tags:
  *       - bookings
  */
-handler.use(isAuthenticatedUser, authorizeRoles("admin")).delete(deleteBooking);
+handler
+  .use(isAuthenticatedUser, authorizeRoles("admin"))
+  .delete(deleteBookingByAdmin);
 
 export default handler;

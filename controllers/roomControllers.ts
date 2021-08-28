@@ -1,5 +1,4 @@
 import Room from "../models/room";
-import Booking from "../models/booking";
 
 import ErrorHandler from "../utils/errorHandler";
 import APIFeatures from "../utils/apiFeatures";
@@ -7,9 +6,13 @@ import FileService from "../services/file.service";
 
 // Create all rooms   =>   /api/rooms
 const allRooms = async (req, res) => {
-  const resPerPage = 4;
+  const resPerPage = 8;
+
+  console.log(req.user);
 
   const roomsCount = await Room.countDocuments();
+
+  console.log(req.query);
 
   const apiFeatures = new APIFeatures(Room.find(), req.query).search().filter();
 

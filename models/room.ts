@@ -2,17 +2,9 @@ import { model, models, Schema, Document, Model } from "mongoose";
 
 interface Room extends Document {
   name: string;
-  pricePerNight: number;
   description: string;
   address: string;
   guestCapacity: number;
-  numOfBeds: number;
-  internet: boolean;
-  breakfast: boolean;
-  airConditioned: boolean;
-  petsAllowed: boolean;
-  roomCleaning: boolean;
-  ratings?: number;
   category: string;
   user?: any;
   images: {
@@ -28,12 +20,6 @@ const roomSchema = new Schema({
     trim: true,
     maxLength: [100, "Room name cannot exceed 100 characters"],
   },
-  pricePerNight: {
-    type: Number,
-    required: [true, "Please enter room price per night"],
-    maxLength: [4, "Room name cannot exceed 4 characters"],
-    default: 0.0,
-  },
   description: {
     type: String,
     required: [true, "Please enter room description"],
@@ -45,38 +31,6 @@ const roomSchema = new Schema({
   guestCapacity: {
     type: Number,
     required: [true, "Please enter room guest capacity"],
-  },
-  numOfBeds: {
-    type: Number,
-    required: [true, "Please enter number of beds in room"],
-  },
-  internet: {
-    type: Boolean,
-    default: false,
-  },
-  breakfast: {
-    type: Boolean,
-    default: false,
-  },
-  airConditioned: {
-    type: Boolean,
-    default: false,
-  },
-  petsAllowed: {
-    type: Boolean,
-    default: false,
-  },
-  roomCleaning: {
-    type: Boolean,
-    default: false,
-  },
-  ratings: {
-    type: Number,
-    default: 0,
-  },
-  numOfReviews: {
-    type: Number,
-    default: 0,
   },
   images: [
     {
@@ -94,8 +48,8 @@ const roomSchema = new Schema({
     type: String,
     required: [true, "Please enter room category"],
     enum: {
-      values: ["King", "Single", "Twins"],
-      message: "Please select correct category for room",
+      values: ["Cola", "Pepsi"],
+      message: "Please select correct company type for room",
     },
   },
   user: {

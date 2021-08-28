@@ -45,6 +45,14 @@ const userSchema = new mongoose.Schema<User>({
     type: String,
     default: "user",
   },
+  company: {
+    type: String,
+    required: [true, "Please enter company"],
+    enum: {
+      values: ["Cola", "Pepsi"],
+      message: "Please select correct company type for user",
+    },
+  },
   createdAt: {
     type: Date,
     default: Date.now,

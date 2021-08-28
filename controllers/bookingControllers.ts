@@ -8,21 +8,14 @@ const moment = extendMoment(Moment);
 
 // Create new Booking   =>   /api/bookings
 const newBooking = async (req, res) => {
-  const {
-    room,
-    checkInDate,
-    checkOutDate,
-    daysOfStay,
-    amountPaid,
-    paymentInfo,
-  } = req.body;
+  const { room, startDateTime, endDateTime, amountPaid, paymentInfo } =
+    req.body;
 
   const booking = await Booking.create({
     room,
     user: req.user._id,
-    checkInDate,
-    checkOutDate,
-    daysOfStay,
+    startDateTime,
+    endDateTime,
     amountPaid,
     paymentInfo,
     paidAt: Date.now(),
@@ -36,22 +29,22 @@ const newBooking = async (req, res) => {
 
 // Create new booking   =>   /api/bookings/check
 const checkRoomBookingAvailability = async (req, res) => {
-  let { roomId, checkInDate, checkOutDate } = req.query;
+  let { roomId, startDateTime, endDateTime } = req.query;
 
-  checkInDate = new Date(checkInDate);
-  checkOutDate = new Date(checkOutDate);
+  startDateTime = new Date(startDateTime);
+  endDateTime = new Date(endDateTime);
 
   const bookings = await Booking.find({
     room: roomId,
     $and: [
       {
-        checkInDate: {
-          $lte: checkOutDate,
+        startDateTime: {
+          $lte: endDateTime,
         },
       },
       {
-        checkOutDate: {
-          $gte: checkInDate,
+        endDateTime: {
+          $gte: startDateTime,
         },
       },
     ],
@@ -83,16 +76,16 @@ const checkBookedDatesOfRoom = async (req, res) => {
   const timeDiffernece = moment().utcOffset() / 60;
 
   bookings.forEach((booking) => {
-    const checkInDate = moment(booking.checkInDate).add(
+    const startDateTime = moment(booking.startDateTime).add(
       timeDiffernece,
       "hours"
     );
-    const checkOutDate = moment(booking.checkOutDate).add(
+    const endDateTime = moment(booking.endDateTime).add(
       timeDiffernece,
       "hours"
     );
 
-    const range = moment.range(moment(checkInDate), moment(checkOutDate));
+    const range = moment.range(moment(startDateTime), moment(endDateTime));
 
     const dates = Array.from(range.by("day"));
     bookedDates = bookedDates.concat(dates);
@@ -109,7 +102,7 @@ const myBookings = async (req, res) => {
   const bookings = await Booking.find({ user: req.user._id })
     .populate({
       path: "room",
-      select: "name pricePerNight images",
+      select: "name images",
     })
     .populate({
       path: "user",
@@ -127,7 +120,7 @@ const getBookingDetails = async (req, res) => {
   const booking = await Booking.findById(req.query.id)
     .populate({
       path: "room",
-      select: "name pricePerNight images",
+      select: "name images",
     })
     .populate({
       path: "user",
@@ -145,7 +138,7 @@ const allAdminBookings = async (req, res) => {
   const bookings = await Booking.find()
     .populate({
       path: "room",
-      select: "name pricePerNight images",
+      select: "name images",
     })
     .populate({
       path: "user",
@@ -158,9 +151,24 @@ const allAdminBookings = async (req, res) => {
   });
 };
 
-// Delete booking - ADMIN   =>   /api/admin/bookings/id
-const deleteBooking = async (req, res, next) => {
+const deleteBookingByAdmin = async (req, res, next) => {
   const booking = await Booking.findById(req.query.id);
+
+  if (!booking) {
+    return next(new ErrorHandler("Booking not found with this ID", 400));
+  }
+
+  await booking.remove();
+
+  res.status(200).json({
+    success: true,
+  });
+};
+
+const deleteBooking = async (req, res, next) => {
+  console.log("user", req.user);
+  const booking = await Booking.findById(req.query.id);
+  console.log("booking user", booking.user);
 
   if (!booking) {
     return next(new ErrorHandler("Booking not found with this ID", 400));
@@ -180,5 +188,6 @@ export {
   myBookings,
   getBookingDetails,
   allAdminBookings,
+  deleteBookingByAdmin,
   deleteBooking,
 };
