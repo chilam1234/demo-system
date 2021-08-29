@@ -31,7 +31,6 @@ export const authSlice = createSlice({
       state.success = true;
     });
     builder.addCase(registerUserThunk.rejected, (state, action) => {
-      console.log("testing error");
       state.loading = false;
       state.error = action.payload;
     });
@@ -124,7 +123,6 @@ export const userSlice = createSlice({
         action.type === updateUserByIdThunk.rejected.type ||
         action.type === deleteUserThunk.rejected.type,
       (state, action) => {
-        console.log("triggered");
         state.loading = false;
         state.error = action.payload;
       }

@@ -1,5 +1,4 @@
 import mongoose, { Document, Model } from "mongoose";
-import timeZone from "mongoose-timezone";
 import Room from "../models/room";
 import User from "../models/user";
 interface Booking extends Document {
@@ -33,8 +32,6 @@ const bookingSchema = new mongoose.Schema<Booking>({
     default: Date.now,
   },
 });
-
-bookingSchema.plugin(timeZone);
 
 export default (mongoose.models.Booking as Model<Booking, {}>) ||
   mongoose.model<Booking>("Booking", bookingSchema);

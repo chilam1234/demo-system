@@ -32,7 +32,6 @@ import {
   CLEAR_ERRORS,
 } from "../constants/userConstants";
 
-// User reducer
 export const userReducer = (state = {}, action) => {
   switch (action.type) {
     case UPDATE_PROFILE_REQUEST:

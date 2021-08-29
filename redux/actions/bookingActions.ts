@@ -46,9 +46,7 @@ export const checkBooking =
 
 export const getBookedDates = (id) => async (dispatch) => {
   try {
-    const { data } = await axios.get(
-      `/api/bookings/check_booked_dates?roomId=${id}`
-    );
+    const { data } = await axios.get(`/api/bookings/booked_times?roomId=${id}`);
 
     dispatch({
       type: BOOKED_DATES_SUCCESS,
@@ -112,7 +110,6 @@ export const createBooking = (newBooking) => async (dispatch) => {
   };
   try {
     dispatch({ type: NEW_BOOKING_REQUEST });
-    console.log("testing");
 
     const { data } = await axios.post(`/api/bookings`, newBooking, config);
 

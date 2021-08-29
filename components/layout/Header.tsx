@@ -4,17 +4,20 @@ import Link from "next/link";
 import { useDispatch, useSelector } from "react-redux";
 import { signOut } from "next-auth/client";
 import { loadUserThunk } from "../../redux/actions/userAsyncThunkActions";
+import { RootState } from "../../redux/store";
 
 const Header = () => {
   const dispatch = useDispatch();
 
-  const { user, loading } = useSelector((state) => state.loadedUser);
+  const { user: data, loading } = useSelector(
+    (state: RootState) => state.loadedUser
+  );
 
   useEffect(() => {
-    if (!user) {
+    if (!data) {
       dispatch(loadUserThunk());
     }
-  }, [dispatch, user]);
+  }, [dispatch, data]);
 
   const logoutHandler = () => {
     signOut();
@@ -36,7 +39,7 @@ const Header = () => {
         </div>
 
         <div className="col-3 mt-3 mt-md-0 text-center">
-          {user ? (
+          {data ? (
             <div className="ml-4 dropdown d-line">
               <a
                 className="btn dropdown-toggle mr-4"
@@ -48,21 +51,21 @@ const Header = () => {
                 <figure className="avatar avatar-nav">
                   <img
                     src={
-                      (user.avatar && user.avatar.url) ??
+                      (data.user?.avatar && data.user?.avatar.url) ??
                       "/images/default_avatar.jpg"
                     }
-                    alt={user && user.name}
+                    alt={data.user && data.user.name}
                     className="rounded-circle"
                   />
                 </figure>
-                <span>{user && user.name}</span>
+                <span>{data.user && data.user.name}</span>
               </a>
 
               <div
                 className="dropdown-menu"
                 aria-labelledby="dropDownMenuButton"
               >
-                {user.role === "admin" && (
+                {data.role === "admin" && (
                   <>
                     <Link href="/admin/rooms">
                       <a className="dropdown-item">Rooms</a>

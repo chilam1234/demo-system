@@ -6,6 +6,7 @@ import Image from "next/image";
 import RoomFeatures from "./RoomFeatures";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import moment from "moment";
 
 import { Carousel } from "react-bootstrap";
 
@@ -25,12 +26,13 @@ import BookingCalendar from "../booking/BookingCalendar";
 
 const RoomDetails = () => {
   const [startDateTime, setStartDateTime] = useState<Date>();
-  const [endDateTime, setEndDateTime] = useState<Date>();
 
   const dispatch = useDispatch();
   const router = useRouter();
 
-  const { dates } = useSelector<RootState>((state) => state.bookedDates);
+  const { dates: bookedDates } = useSelector<RootState>(
+    (state) => state.bookedDates
+  );
   const { user } = useSelector<RootState>((state) => state.loadedUser);
   const { room, error } = useSelector<RootState>((state) => state.roomDetails);
   const { error: createBookingError } = useSelector<RootState>(
@@ -41,19 +43,26 @@ const RoomDetails = () => {
   );
 
   const excludedDates = [];
-  dates.forEach((date) => {
-    excludedDates.push(new Date(date));
+  const bookedDateEvents = [];
+  bookedDates.forEach((date) => {
+    excludedDates.push(date);
+    bookedDateEvents.push({
+      title: "booked",
+      start: new Date(date.start),
+      end: new Date(date.end),
+    });
   });
 
-  const onChange = (dates: [Date, Date]) => {
-    const [startDateTime, endDateTime] = dates;
-
-    setStartDateTime(startDateTime);
-    setEndDateTime(endDateTime);
-
-    if (startDateTime && endDateTime) {
+  const onChange = (date: Date) => {
+    const startDateTime = moment(date);
+    setStartDateTime(startDateTime.toDate());
+    if (startDateTime.toDate()) {
       dispatch(
-        checkBooking(id, startDateTime.toISOString(), endDateTime.toISOString())
+        checkBooking(
+          id,
+          startDateTime.toISOString(),
+          startDateTime.add(1, "hour").toISOString()
+        )
       );
     }
   };
@@ -64,7 +73,7 @@ const RoomDetails = () => {
     const bookingData = {
       room: id,
       startDateTime,
-      endDateTime,
+      endDateTime: moment(startDateTime).add(1, "hour").toDate(),
     };
 
     dispatch(createBooking(bookingData));
@@ -112,30 +121,28 @@ const RoomDetails = () => {
               </Carousel.Item>
             ))}
         </Carousel>
-
         <div className="row my-5">
-          <div className="col-12 col-md-6 col-lg-8">
+          <div className="col-12 col-md-8 col-lg-8">
+            <h3>Availability</h3>
+            <BookingCalendar events={bookedDateEvents} />
             <h3>Description</h3>
             <p>{room.description}</p>
 
             <RoomFeatures room={room} />
           </div>
 
-          <div className="col-12 col-md-6 col-lg-4">
+          <div className="col-12 col-md-4 col-lg-4">
+            <h3 className="mb-3">Select the time slot</h3>
             <div className="booking-card shadow-lg p-4">
-              <h3 className="mb-3">Select the time slot</h3>
               <DatePicker
                 className="w-100"
                 selected={startDateTime}
                 onChange={onChange}
                 startDate={startDateTime}
-                endDate={endDateTime}
                 minDate={new Date()}
-                excludeDates={excludedDates}
                 showTimeSelect
                 timeIntervals={60}
               />
-              <BookingCalendar />
 
               {available === true && (
                 <div className="alert alert-success my-3 font-weight-bold">
@@ -145,7 +152,8 @@ const RoomDetails = () => {
 
               {available === false && (
                 <div className="alert alert-danger my-3 font-weight-bold">
-                  Room not available. Try different dates.
+                  Room is not available. Try a different time slot or other
+                  bookable rooms.
                 </div>
               )}
 

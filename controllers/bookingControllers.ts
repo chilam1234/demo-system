@@ -1,24 +1,17 @@
 import Booking from "../models/booking";
+import Room from "../models/room";
 
 import ErrorHandler from "../utils/errorHandler";
-import * as Moment from "moment";
-import { extendMoment } from "moment-range";
+import moment from "moment";
 
-const moment = extendMoment(Moment);
-
-// Create new Booking   =>   /api/bookings
 const newBooking = async (req, res) => {
-  const { room, startDateTime, endDateTime, amountPaid, paymentInfo } =
-    req.body;
+  const { room, startDateTime, endDateTime } = req.body;
 
   const booking = await Booking.create({
     room,
     user: req.user._id,
-    startDateTime,
-    endDateTime,
-    amountPaid,
-    paymentInfo,
-    paidAt: Date.now(),
+    startDateTime: moment.utc(startDateTime).toDate(),
+    endDateTime: moment.utc(endDateTime).toDate(),
   });
 
   res.status(200).json({
@@ -31,20 +24,24 @@ const newBooking = async (req, res) => {
 const checkRoomBookingAvailability = async (req, res) => {
   let { roomId, startDateTime, endDateTime } = req.query;
 
-  startDateTime = new Date(startDateTime);
-  endDateTime = new Date(endDateTime);
+  startDateTime = moment.utc(startDateTime).toDate();
+  endDateTime = moment.utc(endDateTime).toDate();
+  const room = await Room.findById(roomId);
+  if (!room) {
+    throw new ErrorHandler("No such room", 400);
+  }
 
   const bookings = await Booking.find({
     room: roomId,
     $and: [
       {
         startDateTime: {
-          $lte: endDateTime,
+          $lt: endDateTime,
         },
       },
       {
         endDateTime: {
-          $gte: startDateTime,
+          $gt: startDateTime,
         },
       },
     ],
@@ -53,7 +50,7 @@ const checkRoomBookingAvailability = async (req, res) => {
   // Check if there is any booking available
   let isAvailable;
 
-  if (bookings && bookings.length === 0) {
+  if (bookings && bookings.length === 0 && room.category === req.user.company) {
     isAvailable = true;
   } else {
     isAvailable = false;
@@ -65,30 +62,20 @@ const checkRoomBookingAvailability = async (req, res) => {
   });
 };
 
-// Check booked dates of a room   =>   /api/bookings/check_booked_dates
-const checkBookedDatesOfRoom = async (req, res) => {
+const checkBookedRoomTimes = async (req, res) => {
   const { roomId } = req.query;
 
   const bookings = await Booking.find({ room: roomId });
 
   let bookedDates = [];
-
-  const timeDiffernece = moment().utcOffset() / 60;
-
   bookings.forEach((booking) => {
-    const startDateTime = moment(booking.startDateTime).add(
-      timeDiffernece,
-      "hours"
-    );
-    const endDateTime = moment(booking.endDateTime).add(
-      timeDiffernece,
-      "hours"
-    );
+    const localStartDateTime = moment(booking.startDateTime).toDate();
+    const localEndDateTime = moment(booking.endDateTime).toDate();
 
-    const range = moment.range(moment(startDateTime), moment(endDateTime));
-
-    const dates = Array.from(range.by("day"));
-    bookedDates = bookedDates.concat(dates);
+    bookedDates = bookedDates.concat({
+      start: localStartDateTime,
+      end: localEndDateTime,
+    });
   });
 
   res.status(200).json({
@@ -166,9 +153,7 @@ const deleteBookingByAdmin = async (req, res, next) => {
 };
 
 const deleteBooking = async (req, res, next) => {
-  console.log("user", req.user);
   const booking = await Booking.findById(req.query.id);
-  console.log("booking user", booking.user);
 
   if (!booking) {
     return next(new ErrorHandler("Booking not found with this ID", 400));
@@ -184,7 +169,7 @@ const deleteBooking = async (req, res, next) => {
 export {
   newBooking,
   checkRoomBookingAvailability,
-  checkBookedDatesOfRoom,
+  checkBookedRoomTimes,
   myBookings,
   getBookingDetails,
   allAdminBookings,

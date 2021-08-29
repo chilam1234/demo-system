@@ -11,7 +11,7 @@ import { UploadApiResponse } from "cloudinary";
 // Register user   =>   /api/auth/register
 const registerUser = async (req, res) => {
   const { name, email, password, avatar, company } = req.body;
-  console.log("company", name);
+
   let result: UploadApiResponse | undefined;
   if (avatar) {
     result = await FileService.uploadImage(req.body.avatar, {

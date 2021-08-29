@@ -8,11 +8,7 @@ import FileService from "../services/file.service";
 const allRooms = async (req, res) => {
   const resPerPage = 8;
 
-  console.log(req.user);
-
   const roomsCount = await Room.countDocuments();
-
-  console.log(req.query);
 
   const apiFeatures = new APIFeatures(Room.find(), req.query).search().filter();
 

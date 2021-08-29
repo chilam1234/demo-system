@@ -11,6 +11,7 @@ import {
   loadUserThunk,
 } from "../../redux/actions/userAsyncThunkActions";
 import { userSlice } from "../../redux/slices/userSlices";
+import { RootState } from "../../redux/store";
 
 const Profile = () => {
   const dispatch = useDispatch();
@@ -22,8 +23,6 @@ const Profile = () => {
     password: "",
   });
 
-  console.log("user", user);
-
   const { name, email, password } = user;
 
   const [avatar, setAvatar] = useState("");
@@ -32,7 +31,7 @@ const Profile = () => {
   );
 
   const { user: loadedUser, loading } = useSelector(
-    (state) => state.loadedUser.user
+    (state: RootState) => state.loadedUser.user
   );
   const {
     error,
@@ -85,7 +84,7 @@ const Profile = () => {
           setAvatarPreview(reader.result.toString());
         }
       };
-      console.log(e.target.files);
+
       reader.readAsDataURL(e.target.files[0]);
     } else {
       setUser({ ...user, [e.target.name]: e.target.value });

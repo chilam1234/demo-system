@@ -50,7 +50,6 @@ const Register = () => {
       avatar,
       company,
     };
-    console.log("testing", userData);
 
     dispatch(registerUserThunk(userData));
   };
@@ -69,7 +68,6 @@ const Register = () => {
       reader.readAsDataURL(e.target.files[0]);
     } else {
       setUser({ ...user, [e.target.name]: e.target.value });
-      console.log(user);
     }
   };
 
