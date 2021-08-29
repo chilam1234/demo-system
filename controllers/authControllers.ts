@@ -35,7 +35,7 @@ const registerUser = async (req, res) => {
       : undefined,
   });
 
-  res.status(200).json({
+  res.status(201).json({
     success: true,
     message: "Account Registered successfully",
   });
@@ -85,7 +85,7 @@ const updateProfile = async (req, res) => {
   });
 };
 
-// Forgot password   =>   /api/password/forgot
+// Forgot password   =>   /api/auth/forgot
 const forgotPassword = async (req, res, next) => {
   const user = await User.findOne({ email: req.body.email });
 
@@ -113,7 +113,7 @@ const forgotPassword = async (req, res, next) => {
       message,
     });
 
-    res.status(200).json({
+    res.status(201).json({
       success: true,
       message: `Email sent to: ${user.email}`,
     });
@@ -127,9 +127,8 @@ const forgotPassword = async (req, res, next) => {
   }
 };
 
-// Reset password   =>   /api/password/reset/:token
+// Reset password   =>   /api/auth/reset/:token
 const resetPassword = async (req, res, next) => {
-  // Hash URL token
   const resetPasswordToken = crypto
     .createHash("sha256")
     .update(req.query.token)
@@ -197,7 +196,7 @@ const updateUser = async (req, res) => {
     role: req.body.role,
   };
 
-  const user = await User.findByIdAndUpdate(req.query.id, newUserData, {
+  await User.findByIdAndUpdate(req.query.id, newUserData, {
     new: true,
     runValidators: true,
     useFindAndModify: false,

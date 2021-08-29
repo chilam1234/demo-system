@@ -14,6 +14,17 @@ const handler = nc<NextApiRequest, NextApiResponse>({ onError });
 
 dbConnect();
 
+/**
+ * @swagger
+ * /api/admin/rooms:
+ *   delete:
+ *     description: get all admin rooms
+ *     responses:
+ *       200:
+ *         description: all rooms
+ *     tags:
+ *       - Admin
+ */
 handler.use(isAuthenticatedUser, authorizeRoles("admin")).get(allAdminRooms);
 
 export default handler;

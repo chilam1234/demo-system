@@ -15,14 +15,14 @@ dbConnect();
 
 /**
  * @swagger
- * /api/bookings:
+ * /api/admin/bookings:
  *   get:
- *     description: Delete the booking
+ *     description: get All the booking
  *     responses:
- *       204:
- *         description: no content
+ *       200:
+ *         description: all bookings
  *     tags:
- *       - bookings
+ *       - Admin
  */
 handler.use(isAuthenticatedUser, authorizeRoles("admin")).get(allAdminBookings);
 

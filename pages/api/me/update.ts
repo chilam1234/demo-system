@@ -11,6 +11,17 @@ const handler = nc<NextApiRequest, NextApiResponse>({ onError });
 
 dbConnect();
 
+/**
+ * @swagger
+ * /api/me:
+ *   patch:
+ *     description: update current user
+ *     responses:
+ *       200:
+ *         description: success
+ *     tags:
+ *       - Me
+ */
 handler.use(isAuthenticatedUser).patch(updateProfile);
 
 export default handler;

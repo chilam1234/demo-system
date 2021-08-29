@@ -15,14 +15,14 @@ dbConnect();
 
 /**
  * @swagger
- * /api/bookings/:id:
+ * /api/admin/bookings/:id:
  *   delete:
  *     description: Delete the booking
  *     responses:
  *       204:
  *         description: no content
  *     tags:
- *       - bookings
+ *       - Admin
  */
 handler
   .use(isAuthenticatedUser, authorizeRoles("admin"))

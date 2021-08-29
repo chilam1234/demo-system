@@ -57,7 +57,7 @@ export const forgotPasswordThunk = createAsyncThunk(
   async (email, { rejectWithValue }) => {
     try {
       const { data } = await axios.post(
-        "/api/password/forgot",
+        "/api/auth/forgot",
         email,
         commonConfigHeader
       );
@@ -77,7 +77,7 @@ export const resetPasswordThunk = createAsyncThunk<
     const config = commonConfigHeader;
     try {
       const { data } = await axios.put(
-        `/api/password/reset/${token}`,
+        `/api/auth/reset/${token}`,
         password,
         config
       );

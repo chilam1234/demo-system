@@ -11,6 +11,17 @@ const handler = nc<NextApiRequest, NextApiResponse>({ onError });
 
 dbConnect();
 
+/**
+ * @swagger
+ * /api/bookings/me:
+ *   get:
+ *     description: get all current user bookings
+ *     responses:
+ *       200:
+ *         description: success
+ *     tags:
+ *       - Booking
+ */
 handler.use(isAuthenticatedUser).get(myBookings);
 
 export default handler;

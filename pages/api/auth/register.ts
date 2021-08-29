@@ -10,6 +10,17 @@ const handler = nc<NextApiRequest, NextApiResponse>({ onError });
 
 dbConnect();
 
+/**
+ * @swagger
+ * /api/auth/users:
+ *   post:
+ *     description: register user
+ *     responses:
+ *       201:
+ *         description: success
+ *     tags:
+ *       - Auth
+ */
 handler.post(registerUser);
 
 export default handler;

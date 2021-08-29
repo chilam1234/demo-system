@@ -12,6 +12,17 @@ const handler = nc<NextApiRequest, NextApiResponse>({ onError });
 
 dbConnect();
 
+/**
+ * @swagger
+ * /api/bookings:
+ *   post:
+ *     description: create a new booking
+ *     responses:
+ *       201:
+ *         description: success
+ *     tags:
+ *       - Booking
+ */
 handler.use(isAuthenticatedUser).post(newBooking);
 
 export default handler;

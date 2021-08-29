@@ -6,13 +6,11 @@
 docker-compose up -d 
 ```
 
-2. load your s3 bucket instance by setting this env 
+2. Set up cloudinary credential by setting these env 
 ```bash
-AWS_ACCESS_KEY_ID
-
-AWS_SECRET_ACCESS_KEY
-
-AWS_SESSION_TOKEN
+IMAGE_CLOUD_NAME = "XXX"
+IMAGE_API_KEY=  "XXXXX"
+IMAGE_API_SECRET= "XXXX"
 ```
 
 3. set up the testing STMP provider
@@ -38,20 +36,17 @@ yarn dev
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
+
+## TODO
+
+1. Add tests
+2. Refactor code => frontend all use redux tool, add more type, abstract more logic
+3. Add more features
 
 [API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.js`.
 
 The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
 
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
 
 ## Deploy on Vercel
 

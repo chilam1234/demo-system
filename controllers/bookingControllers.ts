@@ -14,7 +14,7 @@ const newBooking = async (req, res) => {
     endDateTime: moment.utc(endDateTime).toDate(),
   });
 
-  res.status(200).json({
+  res.status(201).json({
     success: true,
     booking,
   });
