@@ -7,11 +7,7 @@ import {
   roomReducer,
 } from "./roomReducers";
 
-import {
-  forgotPasswordReducer,
-  allUsersReducer,
-  userDetailsReducer,
-} from "./userReducers";
+import { allUsersReducer } from "./userReducers";
 
 import {
   checkBookingReducer,
@@ -21,7 +17,13 @@ import {
   bookingReducer,
 } from "./bookingReducers";
 
-import { authSlice, myUserSlice, userSlice } from "../slices/userSlices";
+import {
+  authSlice,
+  forgotPasswordSlice,
+  myUserSlice,
+  userDetailsSlice,
+  userSlice,
+} from "../slices/userSlices";
 
 const reducer = combineReducers({
   allRooms: allRoomsReducer,
@@ -32,8 +34,8 @@ const reducer = combineReducers({
   user: userSlice.reducer,
   loadedUser: myUserSlice.reducer,
   allUsers: allUsersReducer,
-  userDetails: userDetailsReducer,
-  forgotPassword: forgotPasswordReducer,
+  userDetails: userDetailsSlice.reducer,
+  forgotPassword: forgotPasswordSlice.reducer,
   checkBooking: checkBookingReducer,
   bookedDates: bookedDatesReducer,
   bookings: bookingsReducer,

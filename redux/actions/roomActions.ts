@@ -6,12 +6,6 @@ import {
   ALL_ROOMS_FAIL,
   ROOM_DETAILS_SUCCESS,
   ROOM_DETAILS_FAIL,
-  NEW_REVIEW_REQUEST,
-  NEW_REVIEW_SUCCESS,
-  NEW_REVIEW_FAIL,
-  REVIEW_AVAILABILITY_REQUEST,
-  REVIEW_AVAILABILITY_SUCCESS,
-  REVIEW_AVAILABILITY_FAIL,
   ADMIN_ROOMS_REQUEST,
   ADMIN_ROOMS_SUCCESS,
   ADMIN_ROOMS_FAIL,
@@ -24,28 +18,19 @@ import {
   DELETE_ROOM_REQUEST,
   DELETE_ROOM_SUCCESS,
   DELETE_ROOM_FAIL,
-  GET_REVIEWS_REQUEST,
-  GET_REVIEWS_SUCCESS,
-  GET_REVIEWS_FAIL,
-  DELETE_REVIEW_REQUEST,
-  DELETE_REVIEW_SUCCESS,
-  DELETE_REVIEW_RESET,
-  DELETE_REVIEW_FAIL,
   CLEAR_ERRORS,
 } from "../constants/roomConstants";
 
 // Get all rooms
 export const getRooms =
-  (req, currentPage = 1, location = "", guests, category) =>
+  (req, currentPage = 1, guests) =>
   async (dispatch) => {
     try {
       const { origin } = absoluteUrl(req);
 
-      let link = `${origin}/api/rooms?page=${currentPage}&location=${location}`;
+      let link = `${origin}/api/rooms?page=${currentPage}`;
 
-      if (guests) link = link.concat(`&guestCapacity=${guests}`);
-      if (category) link = link.concat(`&category=${category}`);
-
+      if (guests) link = link.concat(`&guestCapacity[gte]=${guests}`);
       const { data } = await axios.get(link);
 
       dispatch({

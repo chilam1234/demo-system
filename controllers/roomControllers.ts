@@ -1,27 +1,30 @@
 import Room from "../models/room";
 
 import ErrorHandler from "../utils/errorHandler";
-import APIFeatures from "../utils/apiFeatures";
+import QueryManager from "../utils/Query";
 import FileService from "../services/file.service";
 
 // Create all rooms   =>   /api/rooms
 const allRooms = async (req, res) => {
-  const resPerPage = 8;
+  const pageSize = 8;
 
   const roomsCount = await Room.countDocuments();
 
-  const apiFeatures = new APIFeatures(Room.find(), req.query).search().filter();
+  const queryManager = new QueryManager<typeof Room>(
+    Room.find(),
+    req.query
+  ).filter();
 
-  let rooms = await apiFeatures.query;
+  let rooms = await queryManager.query;
   let filteredRoomsCount = rooms.length;
 
-  apiFeatures.pagination(resPerPage);
-  rooms = await apiFeatures.query;
+  queryManager.pagination(pageSize);
+  rooms = await queryManager.query;
 
   res.status(200).json({
     success: true,
     roomsCount,
-    resPerPage,
+    pageSize,
     filteredRoomsCount,
     rooms,
   });

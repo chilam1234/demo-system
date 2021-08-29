@@ -25,6 +25,11 @@ interface CalendarEvent {
 }
 
 function SelectableCalendar({ localizer, events }: Props) {
+  const formats = {
+    eventTimeRangeFormat: () => {
+      return "";
+    },
+  };
   return (
     <>
       <Calendar
@@ -40,6 +45,7 @@ function SelectableCalendar({ localizer, events }: Props) {
         titleAccessor="title"
         scrollToTime={new Date()}
         onSelecting={() => false}
+        formats={formats}
       />
     </>
   );
