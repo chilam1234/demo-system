@@ -209,14 +209,17 @@ const updateUser = async (req, res) => {
 
 // Delete user    =>   /api/admin/users/:id
 const deleteUser = async (req, res) => {
+  if (req.user._id === req.query.id) {
+    throw new ErrorHandler("Cannot delete yourself.", 400);
+  }
   const user = await User.findById(req.query.id);
 
   if (!user) {
     throw new ErrorHandler("User not found with this ID.", 400);
   }
 
-  const image_id = user.avatar.public_id;
-  await FileService.removeImage(image_id);
+  // const image_id = user.avatar.public_id;
+  // await FileService.removeImage(image_id);
 
   await user.remove();
 

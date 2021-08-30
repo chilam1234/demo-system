@@ -5,7 +5,9 @@ import { toast } from "react-toastify";
 import ButtonLoader from "../layout/ButtonLoader";
 
 import { useDispatch, useSelector } from "react-redux";
-import { resetPassword, clearErrors } from "../../redux/actions/userActions";
+import { forgotPasswordSlice } from "../../redux/slices/userSlices";
+import { resetPasswordThunk } from "../../redux/actions/userAsyncThunkActions";
+import { RootState } from "../../redux/store";
 
 const NewPassword = () => {
   const [password, setPassword] = useState("");
@@ -15,13 +17,13 @@ const NewPassword = () => {
   const router = useRouter();
 
   const { error, loading, success } = useSelector(
-    (state) => state.forgotPassword
+    (state: RootState) => state.forgotPassword
   );
 
   useEffect(() => {
     if (error) {
       toast.error(error);
-      dispatch(clearErrors());
+      dispatch(forgotPasswordSlice.actions.clearErrors());
     }
 
     if (success) {
@@ -37,7 +39,12 @@ const NewPassword = () => {
       confirmPassword,
     };
 
-    dispatch(resetPassword(router.query.token, passwords));
+    dispatch(
+      resetPasswordThunk({
+        token: router.query.token as string,
+        passwords,
+      })
+    );
   };
 
   return (

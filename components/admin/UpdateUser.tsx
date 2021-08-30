@@ -12,6 +12,7 @@ import {
   getUserDetailsThunk,
   updateUserByIdThunk,
 } from "../../redux/actions/userAsyncThunkActions";
+import { RootState } from "../../redux/store";
 
 const UpdateUser = () => {
   const [name, setName] = useState("");
@@ -21,15 +22,17 @@ const UpdateUser = () => {
   const dispatch = useDispatch();
   const router = useRouter();
 
-  const { error, isUpdated } = useSelector((state) => state.user);
-  const { user, loading } = useSelector((state) => state.userDetails);
-
-  const userId = router.query.id;
+  const { error, isUpdated } = useSelector((state: RootState) => state.user);
+  const { user, loading } = useSelector(
+    (state: RootState) => state.userDetails
+  );
+  const userId = router.query.id as string;
+  useEffect(() => {
+    dispatch(getUserDetailsThunk(userId));
+  }, []);
 
   useEffect(() => {
-    if (user && user._id !== userId) {
-      dispatch(getUserDetailsThunk(userId as string));
-    } else {
+    if (user != undefined) {
       setName(user.name);
       setEmail(user.email);
       setRole(user.role);

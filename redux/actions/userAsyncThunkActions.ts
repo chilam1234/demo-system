@@ -9,7 +9,7 @@ const commonConfigHeader = {
 
 export const registerUserThunk = createAsyncThunk<any, any>(
   "users/register",
-  async (userData, { rejectWithValue }) => {
+  async (userData: any, { rejectWithValue }) => {
     try {
       const response = await axios.post(
         "/api/auth/register",
@@ -38,7 +38,7 @@ export const loadUserThunk = createAsyncThunk(
 
 export const updateUserThunk = createAsyncThunk(
   "users/updateMe",
-  async (userData, { rejectWithValue }) => {
+  async (userData: any, { rejectWithValue }) => {
     try {
       const { data } = await axios.patch(
         "/api/me/update",
@@ -54,11 +54,11 @@ export const updateUserThunk = createAsyncThunk(
 
 export const forgotPasswordThunk = createAsyncThunk(
   "users/forgotPassword",
-  async (email, { rejectWithValue }) => {
+  async (email: string, { rejectWithValue }) => {
     try {
       const { data } = await axios.post(
         "/api/auth/forgot",
-        email,
+        { email },
         commonConfigHeader
       );
       return data;
@@ -70,15 +70,15 @@ export const forgotPasswordThunk = createAsyncThunk(
 
 export const resetPasswordThunk = createAsyncThunk<
   any,
-  { token: string; password: string }
+  { token: string; passwords: { password: string; confirmPassword: string } }
 >(
   "users/resetPasswordThunk",
-  async ({ token, password }, { rejectWithValue }) => {
+  async ({ token, passwords }, { rejectWithValue }) => {
     const config = commonConfigHeader;
     try {
       const { data } = await axios.put(
         `/api/auth/reset/${token}`,
-        password,
+        passwords,
         config
       );
       return data.success;

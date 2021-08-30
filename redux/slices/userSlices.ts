@@ -133,7 +133,7 @@ export const userSlice = createSlice({
 export const forgotPasswordSlice = createSlice({
   name: "forgotPassword",
   initialState: {
-    loading: true,
+    loading: false,
     error: null,
     message: null,
     success: null,
@@ -172,7 +172,7 @@ export const forgotPasswordSlice = createSlice({
   },
 });
 
-export const adminUsersSlice = createSlice({
+export const adminAllUsersSlice = createSlice({
   name: "allUsers",
   initialState: { loading: false, users: [], error: null },
   reducers: {
@@ -186,6 +186,7 @@ export const adminUsersSlice = createSlice({
     });
     builder.addCase(getAdminUsersThunk.fulfilled, (state, action) => {
       state.loading = false;
+
       state.users = action.payload;
     });
     builder.addCase(getAdminUsersThunk.rejected, (state, action) => {

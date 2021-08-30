@@ -5,6 +5,8 @@ import ButtonLoader from "../layout/ButtonLoader";
 
 import { useDispatch, useSelector } from "react-redux";
 import { forgotPassword, clearErrors } from "../../redux/actions/userActions";
+import { forgotPasswordSlice } from "../../redux/slices/userSlices";
+import { forgotPasswordThunk } from "../../redux/actions/userAsyncThunkActions";
 
 const ForgotPassword = () => {
   const [email, setEmail] = useState("");
@@ -18,7 +20,7 @@ const ForgotPassword = () => {
   useEffect(() => {
     if (error) {
       toast.error(error);
-      dispatch(clearErrors());
+      dispatch(forgotPasswordSlice.actions.clearErrors());
     }
 
     if (message) {
@@ -33,7 +35,7 @@ const ForgotPassword = () => {
       email,
     };
 
-    dispatch(forgotPassword(userData));
+    dispatch(forgotPasswordThunk(userData.email));
   };
 
   return (
