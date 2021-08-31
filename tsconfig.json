@@ -29,7 +29,7 @@
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx"
-, "utils/sendEmail.js", "utils/seeder.ts"  ],
+, "src/server/utils/sendEmail.js", "src/server/utils/seeder.ts"  ],
   "exclude": [
     "node_modules"
   ]

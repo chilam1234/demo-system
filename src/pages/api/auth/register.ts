@@ -1,9 +1,9 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import nc from "next-connect";
 
-import { registerUser } from "../../../../controllers/authControllers";
-import dbConnect from "../../../../lib/dbConnect";
 import onError from "../../../../middlewares/errors";
+import { registerUser } from "../../../server/controllers/authControllers";
+import dbConnect from "../../../server/lib/dbConnect";
 
 const handler = nc<NextApiRequest, NextApiResponse>({ onError });
 

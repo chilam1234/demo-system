@@ -1,8 +1,8 @@
 import NextAuth from "next-auth";
 import Providers from "next-auth/providers";
 
-import dbConnect from "../../../../lib/dbConnect";
-import User from "../../../../models/user";
+import dbConnect from "../../../server/lib/dbConnect";
+import User from "../../../server/models/user";
 
 export default NextAuth({
   session: {

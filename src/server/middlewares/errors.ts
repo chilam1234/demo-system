@@ -1,19 +1,16 @@
-import ErrorHandler from "../utils/errorHandler";
+import ErrorHandler from "../src/server/utils/errorHandler";
 
-export default (err, _, res) => {
+const handleError = (err, _, res) => {
   err.statusCode = err.statusCode || 500;
 
   let error = { ...err };
 
   error.message = err.message;
 
-  // Wrong Mongoose Object ID Error
   if (err.name === "CastError") {
     const message = `Resource not found. Invalid: ${err.path}`;
     error = new ErrorHandler(message, 400);
   }
-
-  // Handling mongoose Validation error
   if (err.name === "ValidationError") {
     const message = Object.values(err.errors).map((value) => value.message);
     error = new ErrorHandler(message, 400);
@@ -26,3 +23,5 @@ export default (err, _, res) => {
     stack: error.stack,
   });
 };
+
+export default handleError;

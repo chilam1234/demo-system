@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-import rooms from "../data/rooms.json";
+import rooms from "../../../data/rooms.json";
 import Room from "../models/room";
 
 mongoose.connect(

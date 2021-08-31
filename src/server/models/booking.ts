@@ -1,7 +1,7 @@
 import mongoose, { Document, Model } from "mongoose";
 
-import Room from "../models/room";
-import User from "../models/user";
+import Room from "./room";
+import User from "./user";
 
 interface Booking extends Document {
   room: typeof Room;
