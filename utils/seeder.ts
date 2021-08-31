@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
-import Room from "../models/room";
+
 import rooms from "../data/rooms.json";
+import Room from "../models/room";
 
 mongoose.connect(
   "mongodb://root:example@localhost:27017?retryWrites=true&w=majority",

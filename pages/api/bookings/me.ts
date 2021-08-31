@@ -1,9 +1,8 @@
-import nc from "next-connect";
 import { NextApiRequest, NextApiResponse } from "next";
-import dbConnect from "../../../lib/dbConnect";
+import nc from "next-connect";
 
 import { myBookings } from "../../../controllers/bookingControllers";
-
+import dbConnect from "../../../lib/dbConnect";
 import { isAuthenticatedUser } from "../../../middlewares/auth";
 import onError from "../../../middlewares/errors";
 

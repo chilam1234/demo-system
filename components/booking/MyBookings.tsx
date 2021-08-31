@@ -1,9 +1,7 @@
-import React, { useEffect } from "react";
-import Link from "next/link";
-
 import { MDBDataTable } from "mdbreact";
+import Link from "next/link";
 import { useRouter } from "next/router";
-
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 

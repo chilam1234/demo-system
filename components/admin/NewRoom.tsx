@@ -1,13 +1,12 @@
+import Image from "next/image";
+import { useRouter } from "next/router";
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
-import { useRouter } from "next/router";
-import Image from "next/image";
-
-import ButtonLoader from "../layout/ButtonLoader";
 
 import { newRoom, clearErrors } from "../../redux/actions/roomActions";
 import { NEW_ROOM_RESET } from "../../redux/constants/roomConstants";
+import ButtonLoader from "../layout/ButtonLoader";
 
 const NewRoom = () => {
   const [name, setName] = useState("");

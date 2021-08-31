@@ -1,7 +1,7 @@
-import React, { useCallback, useState } from "react";
-import { useRouter } from "next/router";
 import DateTimeRangePicker from "@wojtekmaj/react-datetimerange-picker/dist/entry.nostyle";
 import moment from "moment";
+import { useRouter } from "next/router";
+import React, { useCallback, useState } from "react";
 
 const Search = () => {
   const [startDatetime, setStartDatetime] = useState(new Date());

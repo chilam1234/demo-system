@@ -1,18 +1,16 @@
-import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
-
-import Loader from "../layout/Loader";
-
+import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 
-import { UPDATE_USER_RESET } from "../../redux/constants/userConstants";
-import { userDetailsSlice } from "../../redux/slices/userSlices";
 import {
   getUserDetailsThunk,
   updateUserByIdThunk,
 } from "../../redux/actions/userAsyncThunkActions";
+import { UPDATE_USER_RESET } from "../../redux/constants/userConstants";
+import { userDetailsSlice } from "../../redux/slices/userSlices";
 import { RootState } from "../../redux/store";
+import Loader from "../layout/Loader";
 
 const UpdateUser = () => {
   const [name, setName] = useState("");

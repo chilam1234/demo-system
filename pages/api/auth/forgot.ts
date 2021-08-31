@@ -1,9 +1,8 @@
-import nc from "next-connect";
 import { NextApiRequest, NextApiResponse } from "next";
-import dbConnect from "../../../lib/dbConnect";
+import nc from "next-connect";
 
 import { forgotPassword } from "../../../controllers/authControllers";
-
+import dbConnect from "../../../lib/dbConnect";
 import onError from "../../../middlewares/errors";
 
 const handler = nc<NextApiRequest, NextApiResponse>({ onError });

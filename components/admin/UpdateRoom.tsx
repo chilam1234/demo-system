@@ -1,10 +1,6 @@
-import React, { useState, useEffect } from "react";
-import { useRouter } from "next/router";
 import Image from "next/image";
-
-import ButtonLoader from "../layout/ButtonLoader";
-import Loader from "../layout/Loader";
-
+import { useRouter } from "next/router";
+import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 
@@ -14,6 +10,8 @@ import {
   clearErrors,
 } from "../../redux/actions/roomActions";
 import { UPDATE_ROOM_RESET } from "../../redux/constants/roomConstants";
+import ButtonLoader from "../layout/ButtonLoader";
+import Loader from "../layout/Loader";
 
 const UpdateRoom = () => {
   const [name, setName] = useState("");

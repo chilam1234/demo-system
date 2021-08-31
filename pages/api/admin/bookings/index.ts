@@ -1,13 +1,12 @@
 import nc from "next-connect";
-import dbConnect from "../../../../lib/dbConnect";
 
 import { allAdminBookings } from "../../../../controllers/bookingControllers";
-
-import onError from "../../../../middlewares/errors";
+import dbConnect from "../../../../lib/dbConnect";
 import {
   isAuthenticatedUser,
   authorizeRoles,
 } from "../../../../middlewares/auth";
+import onError from "../../../../middlewares/errors";
 
 const handler = nc<NextApiRequest, NextApiResponse>({ onError });
 

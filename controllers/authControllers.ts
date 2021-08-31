@@ -1,12 +1,11 @@
-import User from "../models/user";
+import { UploadApiResponse } from "cloudinary";
+import crypto from "crypto";
+import absoluteUrl from "next-absolute-url";
 
+import User from "../models/user";
+import FileService from "../services/file.service";
 import ErrorHandler from "../utils/errorHandler";
 import sendEmail from "../utils/sendEmail";
-import FileService from "../services/file.service";
-
-import absoluteUrl from "next-absolute-url";
-import crypto from "crypto";
-import { UploadApiResponse } from "cloudinary";
 
 // Register user   =>   /api/auth/register
 const registerUser = async (req, res) => {

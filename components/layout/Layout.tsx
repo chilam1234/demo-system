@@ -1,11 +1,10 @@
-import React from "react";
 import Head from "next/head";
-
-import Header from "./Header";
-import Footer from "./Footer";
-
+import React from "react";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+
+import Footer from "./Footer";
+import Header from "./Header";
 
 const Layout = ({ children, title = "Demo Booking System" }) => {
   return (

@@ -1,13 +1,12 @@
+import Image from "next/image";
+import { useRouter } from "next/router";
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
-import { useRouter } from "next/router";
-import Image from "next/image";
-
-import ButtonLoader from "../layout/ButtonLoader";
 
 import { registerUserThunk } from "../../redux/actions/userAsyncThunkActions";
 import { authSlice } from "../../redux/slices/userSlices";
+import ButtonLoader from "../layout/ButtonLoader";
 
 const Register = () => {
   const dispatch = useDispatch();

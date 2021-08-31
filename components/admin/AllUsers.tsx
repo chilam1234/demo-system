@@ -1,10 +1,7 @@
-import React, { useEffect } from "react";
+import { MDBDataTable } from "mdbreact";
 import Link from "next/link";
 import { useRouter } from "next/router";
-
-import { MDBDataTable } from "mdbreact";
-import Loader from "../layout/Loader";
-
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 
@@ -14,6 +11,7 @@ import {
 } from "../../redux/actions/userAsyncThunkActions";
 import { userSlice } from "../../redux/slices/userSlices";
 import { RootState } from "../../redux/store";
+import Loader from "../layout/Loader";
 
 const AllUsers = () => {
   const dispatch = useDispatch();

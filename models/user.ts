@@ -1,7 +1,7 @@
-import mongoose, { Model, Document } from "mongoose";
-import validator from "validator";
 import bcrypt from "bcryptjs";
 import crypto from "crypto";
+import mongoose, { Model, Document } from "mongoose";
+import validator from "validator";
 
 interface User extends Document {
   name: string;

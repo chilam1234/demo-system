@@ -1,10 +1,9 @@
+import { NextApiRequest, NextApiResponse } from "next";
 import nc from "next-connect";
-import dbConnect from "../../../lib/dbConnect";
 
 import { checkBookedRoomTimes } from "../../../controllers/bookingControllers";
-
+import dbConnect from "../../../lib/dbConnect";
 import onError from "../../../middlewares/errors";
-import { NextApiRequest, NextApiResponse } from "next";
 
 const handler = nc<NextApiRequest, NextApiResponse>({ onError });
 

@@ -1,18 +1,17 @@
+import { NextApiRequest, NextApiResponse } from "next";
 import nc from "next-connect";
-import dbConnect from "../../../../lib/dbConnect";
 
 import {
   getUserDetails,
   updateUser,
   deleteUser,
 } from "../../../../controllers/authControllers";
-
-import onError from "../../../../middlewares/errors";
+import dbConnect from "../../../../lib/dbConnect";
 import {
   isAuthenticatedUser,
   authorizeRoles,
 } from "../../../../middlewares/auth";
-import { NextApiRequest, NextApiResponse } from "next";
+import onError from "../../../../middlewares/errors";
 
 const handler = nc<NextApiRequest, NextApiResponse>({ onError });
 

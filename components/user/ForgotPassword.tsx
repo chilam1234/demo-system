@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from "react";
-
-import { toast } from "react-toastify";
-import ButtonLoader from "../layout/ButtonLoader";
-
 import { useDispatch, useSelector } from "react-redux";
+import { toast } from "react-toastify";
+
 import { forgotPassword, clearErrors } from "../../redux/actions/userActions";
-import { forgotPasswordSlice } from "../../redux/slices/userSlices";
 import { forgotPasswordThunk } from "../../redux/actions/userAsyncThunkActions";
+import { forgotPasswordSlice } from "../../redux/slices/userSlices";
+import ButtonLoader from "../layout/ButtonLoader";
 
 const ForgotPassword = () => {
   const [email, setEmail] = useState("");

@@ -1,14 +1,13 @@
+import { NextApiRequest, NextApiResponse } from "next";
 import nc from "next-connect";
-import dbConnect from "../../../lib/dbConnect";
 
 import {
   deleteBooking,
   getBookingDetails,
 } from "../../../controllers/bookingControllers";
-
+import dbConnect from "../../../lib/dbConnect";
 import { isAuthenticatedUser } from "../../../middlewares/auth";
 import onError from "../../../middlewares/errors";
-import { NextApiRequest, NextApiResponse } from "next";
 
 const handler = nc<NextApiRequest, NextApiResponse>({ onError });
 

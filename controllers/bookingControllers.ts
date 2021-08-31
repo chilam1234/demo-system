@@ -1,8 +1,8 @@
+import moment from "moment";
+
 import Booking from "../models/booking";
 import Room from "../models/room";
-
 import ErrorHandler from "../utils/errorHandler";
-import moment from "moment";
 
 const newBooking = async (req, res) => {
   const { room, startDateTime, endDateTime } = req.body;

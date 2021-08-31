@@ -1,28 +1,24 @@
-import React, { useState, useEffect } from "react";
-import { useRouter } from "next/router";
+import moment from "moment";
 import Head from "next/head";
 import Image from "next/image";
-
-import RoomFeatures from "./RoomFeatures";
+import { useRouter } from "next/router";
+import React, { useState, useEffect } from "react";
+import { Carousel } from "react-bootstrap";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import moment from "moment";
-
-import { Carousel } from "react-bootstrap";
-
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
-import { clearErrors } from "../../redux/actions/roomActions";
 
 import {
   checkBooking,
   createBooking,
   getBookedDates,
 } from "../../redux/actions/bookingActions";
+import { clearErrors } from "../../redux/actions/roomActions";
 import { CHECK_BOOKING_RESET } from "../../redux/constants/bookingConstants";
-
 import { RootState } from "../../redux/store";
 import BookingCalendar from "../booking/BookingCalendar";
+import RoomFeatures from "./RoomFeatures";
 
 const RoomDetails = () => {
   const [startDateTime, setStartDateTime] = useState<Date>();

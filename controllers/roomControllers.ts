@@ -1,8 +1,7 @@
 import Room from "../models/room";
-
-import ErrorHandler from "../utils/errorHandler";
-import QueryManager from "../utils/Query";
 import FileService from "../services/file.service";
+import QueryManager from "../utils/Query";
+import ErrorHandler from "../utils/errorHandler";
 
 // Create all rooms   =>   /api/rooms
 const allRooms = async (req, res) => {

@@ -1,11 +1,8 @@
-import React, { useState, useEffect } from "react";
-import { toast } from "react-toastify";
-import { useDispatch, useSelector } from "react-redux";
-import { useRouter } from "next/router";
 import Image from "next/image";
-
-import ButtonLoader from "../layout/ButtonLoader";
-import Loader from "../layout/Loader";
+import { useRouter } from "next/router";
+import React, { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { toast } from "react-toastify";
 
 import {
   updateUserThunk,
@@ -13,6 +10,8 @@ import {
 } from "../../redux/actions/userAsyncThunkActions";
 import { userSlice } from "../../redux/slices/userSlices";
 import { RootState } from "../../redux/store";
+import ButtonLoader from "../layout/ButtonLoader";
+import Loader from "../layout/Loader";
 
 const Profile = () => {
   const dispatch = useDispatch();

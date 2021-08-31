@@ -1,13 +1,12 @@
-import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
-
-import { toast } from "react-toastify";
-import ButtonLoader from "../layout/ButtonLoader";
-
+import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { forgotPasswordSlice } from "../../redux/slices/userSlices";
+import { toast } from "react-toastify";
+
 import { resetPasswordThunk } from "../../redux/actions/userAsyncThunkActions";
+import { forgotPasswordSlice } from "../../redux/slices/userSlices";
 import { RootState } from "../../redux/store";
+import ButtonLoader from "../layout/ButtonLoader";
 
 const NewPassword = () => {
   const [password, setPassword] = useState("");

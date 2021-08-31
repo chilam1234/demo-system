@@ -1,12 +1,12 @@
-import React, { useEffect } from "react";
-import Link from "next/link";
-import Image from "next/image";
-import styles from "./style.module.css";
-
-import { useDispatch, useSelector } from "react-redux";
 import { signOut } from "next-auth/client";
+import Image from "next/image";
+import Link from "next/link";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+
 import { loadUserThunk } from "../../redux/actions/userAsyncThunkActions";
 import { RootState } from "../../redux/store";
+import styles from "./style.module.css";
 
 const Header = () => {
   const dispatch = useDispatch();
