@@ -8,8 +8,8 @@ import {
   updateRoom,
   getRoomDetails,
   clearErrors,
-} from "../../redux/actions/roomActions";
-import { UPDATE_ROOM_RESET } from "../../redux/constants/roomConstants";
+} from "../../../redux/actions/roomActions";
+import { UPDATE_ROOM_RESET } from "../../../redux/constants/roomConstants";
 import ButtonLoader from "../layout/ButtonLoader";
 import Loader from "../layout/Loader";
 
@@ -233,8 +233,8 @@ const UpdateRoom = () => {
                             key={img.public_id}
                             alt="Images Preview"
                             className="mt-3 mr-2"
-                            width="55"
-                            height="52"
+                            width={55}
+                            height={52}
                           />
                         )
                     )}

@@ -4,8 +4,8 @@ import Link from "next/link";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-import { loadUserThunk } from "../../redux/actions/userAsyncThunkActions";
-import { RootState } from "../../redux/store";
+import { loadUserThunk } from "../../../redux/actions/userAsyncThunkActions";
+import { RootState } from "../../../redux/store";
 import styles from "./style.module.css";
 
 const Header = () => {

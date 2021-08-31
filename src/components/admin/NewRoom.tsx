@@ -4,8 +4,8 @@ import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 
-import { newRoom, clearErrors } from "../../redux/actions/roomActions";
-import { NEW_ROOM_RESET } from "../../redux/constants/roomConstants";
+import { newRoom, clearErrors } from "../../../redux/actions/roomActions";
+import { NEW_ROOM_RESET } from "../../../redux/constants/roomConstants";
 import ButtonLoader from "../layout/ButtonLoader";
 
 const NewRoom = () => {

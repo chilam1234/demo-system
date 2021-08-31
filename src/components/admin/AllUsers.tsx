@@ -6,44 +6,49 @@ import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 
 import {
-  getAdminRooms,
-  deleteRoom,
-  clearErrors,
-} from "../../redux/actions/roomActions";
-import { DELETE_ROOM_RESET } from "../../redux/constants/roomConstants";
+  deleteUserThunk,
+  getAdminUsersThunk,
+} from "../../../redux/actions/userAsyncThunkActions";
+import { userSlice } from "../../../redux/slices/userSlices";
+import { RootState } from "../../../redux/store";
 import Loader from "../layout/Loader";
 
-const AllRooms = () => {
+const AllUsers = () => {
   const dispatch = useDispatch();
   const router = useRouter();
 
-  const { loading, error, rooms } = useSelector((state) => state.allRooms);
-  const { error: deleteError, isDeleted } = useSelector((state) => state.room);
+  const { loading, error, users } = useSelector(
+    (state: RootState) => state.allUsers
+  );
+  const { error: deleteError, isDeleted } = useSelector(
+    (state: RootState) => state.user
+  );
+  useEffect(() => {
+    dispatch(getAdminUsersThunk());
+  }, [dispatch]);
 
   useEffect(() => {
-    dispatch(getAdminRooms());
-
     if (error) {
       toast.error(error);
-      dispatch(clearErrors());
+      dispatch(userSlice.actions.clearErrors());
     }
 
     if (deleteError) {
       toast.error(deleteError);
-      dispatch(clearErrors());
+      dispatch(userSlice.actions.clearErrors());
     }
 
     if (isDeleted) {
-      router.push("/admin/rooms");
-      dispatch({ type: DELETE_ROOM_RESET });
+      router.push("/admin/users");
+      dispatch(userSlice.actions.resetDeletedUser());
     }
-  }, [dispatch, deleteError, isDeleted, error, router]);
+  }, [dispatch, error, isDeleted, deleteError, router]);
 
-  const setRooms = () => {
+  const setUsers = () => {
     const data = {
       columns: [
         {
-          label: "Room ID",
+          label: "User ID",
           field: "id",
           sort: "asc",
         },
@@ -53,8 +58,13 @@ const AllRooms = () => {
           sort: "asc",
         },
         {
-          label: "Category",
-          field: "category",
+          label: "Email",
+          field: "email",
+          sort: "asc",
+        },
+        {
+          label: "Role",
+          field: "role",
           sort: "asc",
         },
         {
@@ -66,15 +76,16 @@ const AllRooms = () => {
       rows: [],
     };
 
-    rooms &&
-      rooms.forEach((room) => {
+    users &&
+      users.forEach((user) => {
         data.rows.push({
-          id: room._id,
-          name: room.name,
-          category: room.category,
+          id: user._id,
+          name: user.name,
+          email: user.email,
+          role: user.role,
           actions: (
             <>
-              <Link href={`/admin/rooms/${room._id}`}>
+              <Link href={`/admin/users/${user._id}`}>
                 <a className="btn btn-primary">
                   <i className="fa fa-pencil"></i>
                 </a>
@@ -82,7 +93,7 @@ const AllRooms = () => {
 
               <button
                 className="btn btn-danger mx-2"
-                onClick={() => deleteRoomHandler(room._id)}
+                onClick={() => deleteUserHandler(user._id)}
               >
                 <i className="fa fa-trash"></i>
               </button>
@@ -94,8 +105,8 @@ const AllRooms = () => {
     return data;
   };
 
-  const deleteRoomHandler = (id) => {
-    dispatch(deleteRoom(id));
+  const deleteUserHandler = (id) => {
+    dispatch(deleteUserThunk(id));
   };
 
   return (
@@ -104,18 +115,10 @@ const AllRooms = () => {
         <Loader />
       ) : (
         <>
-          <h1 className="my-5">
-            {`${rooms && rooms.length} Rooms`}
-
-            <Link href="/admin/rooms/new">
-              <a className="mt-0 btn text-white float-right new-room-btn">
-                Create Room
-              </a>
-            </Link>
-          </h1>
+          <h1 className="my-5">{`${users && users.length} Users`}</h1>
 
           <MDBDataTable
-            data={setRooms()}
+            data={setUsers()}
             className="px-3"
             bordered
             striped
@@ -127,4 +130,4 @@ const AllRooms = () => {
   );
 };
 
-export default AllRooms;
+export default AllUsers;

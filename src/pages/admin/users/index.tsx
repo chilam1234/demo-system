@@ -1,8 +1,8 @@
 import React from 'react'
 import { getSession } from 'next-auth/client'
 
-import AllUsers from '../../../../components/admin/AllUsers'
-import Layout from '../../../../components/layout/Layout'
+import AllUsers from '../../../components/admin/AllUsers'
+import Layout from '../../../components/layout/Layout'
 
 const AllUsersPage = () => {
   return (

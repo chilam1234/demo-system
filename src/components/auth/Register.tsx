@@ -4,8 +4,8 @@ import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 
-import { registerUserThunk } from "../../redux/actions/userAsyncThunkActions";
-import { authSlice } from "../../redux/slices/userSlices";
+import { registerUserThunk } from "../../../redux/actions/userAsyncThunkActions";
+import { authSlice } from "../../../redux/slices/userSlices";
 import ButtonLoader from "../layout/ButtonLoader";
 
 const Register = () => {

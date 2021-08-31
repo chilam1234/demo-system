@@ -4,7 +4,7 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 
-import { clearErrors } from "../../redux/actions/bookingActions";
+import { clearErrors } from "../../../redux/actions/bookingActions";
 
 const BookingDetails = () => {
   const dispatch = useDispatch();

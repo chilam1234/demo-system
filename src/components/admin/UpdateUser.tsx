@@ -6,10 +6,10 @@ import { toast } from "react-toastify";
 import {
   getUserDetailsThunk,
   updateUserByIdThunk,
-} from "../../redux/actions/userAsyncThunkActions";
-import { UPDATE_USER_RESET } from "../../redux/constants/userConstants";
-import { userDetailsSlice } from "../../redux/slices/userSlices";
-import { RootState } from "../../redux/store";
+} from "../../../redux/actions/userAsyncThunkActions";
+import { UPDATE_USER_RESET } from "../../../redux/constants/userConstants";
+import { userDetailsSlice } from "../../../redux/slices/userSlices";
+import { RootState } from "../../../redux/store";
 import Loader from "../layout/Loader";
 
 const UpdateUser = () => {
