@@ -210,28 +210,34 @@ const UpdateRoom = () => {
                     </label>
                   </div>
 
-                  {imagesPreview.map((img) => (
-                    <Image
-                      src={img}
-                      key={img}
-                      alt="Images Preview"
-                      className="mt-3 mr-2"
-                      width="55"
-                      height="52"
-                    />
-                  ))}
+                  {imagesPreview.map(
+                    (img) =>
+                      img ?? (
+                        <Image
+                          src={img}
+                          key={img}
+                          alt="Images Preview"
+                          className="mt-3 mr-2"
+                          width="55"
+                          height="52"
+                        />
+                      )
+                  )}
 
                   {oldImages &&
-                    oldImages.map((img) => (
-                      <Image
-                        src={img.url}
-                        key={img.public_id}
-                        alt="Images Preview"
-                        className="mt-3 mr-2"
-                        width="55"
-                        height="52"
-                      />
-                    ))}
+                    oldImages.map(
+                      (img) =>
+                        img ?? (
+                          <Image
+                            src={img.url}
+                            key={img.public_id}
+                            alt="Images Preview"
+                            className="mt-3 mr-2"
+                            width="55"
+                            height="52"
+                          />
+                        )
+                    )}
                 </div>
                 <button
                   type="submit"

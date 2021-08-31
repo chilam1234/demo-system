@@ -111,7 +111,9 @@ const RoomDetails = () => {
                     className="d-block m-auto"
                     src={image.url}
                     alt={room.name}
-                    layout="fill"
+                    width={300}
+                    height={200}
+                    layout="responsive"
                   />
                 </div>
               </Carousel.Item>

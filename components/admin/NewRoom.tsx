@@ -175,16 +175,19 @@ const NewRoom = () => {
                 </label>
               </div>
 
-              {imagesPreview.map((img) => (
-                <Image
-                  src={img}
-                  key={img}
-                  alt="Images Preview"
-                  className="mt-3 mr-2"
-                  width="55"
-                  height="52"
-                />
-              ))}
+              {imagesPreview.map(
+                (img) =>
+                  img ?? (
+                    <Image
+                      src={img}
+                      key={img}
+                      alt="Images Preview"
+                      className="mt-3 mr-2"
+                      width="55"
+                      height="52"
+                    />
+                  )
+              )}
             </div>
             <button
               type="submit"

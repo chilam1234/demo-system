@@ -133,9 +133,12 @@ const Register = () => {
                 <div>
                   <figure className="avatar mr-3 item-rtl">
                     <Image
-                      src={avatarPreview}
+                      src={avatarPreview ?? ""}
                       className="rounded-circle"
                       alt="image"
+                      width={50}
+                      height={50}
+                      layout="responsive"
                     />
                   </figure>
                 </div>

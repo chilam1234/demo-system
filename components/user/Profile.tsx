@@ -135,6 +135,8 @@ const Profile = () => {
                           src={avatarPreview}
                           className="rounded-circle"
                           alt="image"
+                          width={300}
+                          height={200}
                         />
                       </figure>
                     </div>

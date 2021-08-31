@@ -56,7 +56,7 @@ const BookingDetails = () => {
                 <div className="row my-5">
                   <div className="col-4 col-lg-2">
                     <Image
-                      src={booking.room.images[0].url}
+                      src={booking.room?.images[0]?.url ?? ""}
                       alt={booking.room.name}
                       height={45}
                       width={65}
