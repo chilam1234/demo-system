@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint && stylelint **/*.css",
-    "seeder": "ts-node utils/seeder"
+    "seeder": "ts-node src/server/utils/seeder"
   },
   "dependencies": {
     "@reduxjs/toolkit": "1.6.1",
