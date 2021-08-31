@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { useRouter } from "next/router";
-
 import { toast } from "react-toastify";
+import { useDispatch, useSelector } from "react-redux";
+import { useRouter } from "next/router";
+import Image from "next/image";
+
 import ButtonLoader from "../layout/ButtonLoader";
 import Loader from "../layout/Loader";
 
-import { useDispatch, useSelector } from "react-redux";
 import {
   updateUserThunk,
   loadUserThunk,
@@ -59,7 +60,7 @@ const Profile = () => {
       dispatch(userSlice.actions.resetMyUpdatedUser());
       router.push("/");
     }
-  }, [dispatch, isUpdated, error, loadedUser]);
+  }, [dispatch, isUpdated, error, loadedUser, router]);
 
   const submitHandler = (e) => {
     e.preventDefault();
@@ -131,7 +132,7 @@ const Profile = () => {
                   <div className="d-flex align-items-center">
                     <div>
                       <figure className="avatar mr-3 item-rtl">
-                        <img
+                        <Image
                           src={avatarPreview}
                           className="rounded-circle"
                           alt="image"

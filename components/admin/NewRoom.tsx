@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { useRouter } from "next/router";
-
-import ButtonLoader from "../layout/ButtonLoader";
-
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
+import { useRouter } from "next/router";
+import Image from "next/image";
+
+import ButtonLoader from "../layout/ButtonLoader";
 
 import { newRoom, clearErrors } from "../../redux/actions/roomActions";
 import { NEW_ROOM_RESET } from "../../redux/constants/roomConstants";
@@ -35,7 +35,7 @@ const NewRoom = () => {
       router.push("/admin/rooms");
       dispatch({ type: NEW_ROOM_RESET });
     }
-  }, [dispatch, error, success]);
+  }, [dispatch, error, router, success]);
 
   const submitHandler = (e) => {
     e.preventDefault();
@@ -81,7 +81,7 @@ const NewRoom = () => {
           <form
             className="shadow-lg"
             onSubmit={submitHandler}
-            enctype="multipart/form-data"
+            encType="multipart/form-data"
           >
             <h1 className="mb-4">New Room</h1>
             <div className="form-group">
@@ -177,7 +177,7 @@ const NewRoom = () => {
               </div>
 
               {imagesPreview.map((img) => (
-                <img
+                <Image
                   src={img}
                   key={img}
                   alt="Images Preview"

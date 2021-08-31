@@ -1,5 +1,7 @@
 import React, { useEffect } from "react";
 import Link from "next/link";
+import Image from "next/image";
+import styles from "./style.module.css";
 
 import { useDispatch, useSelector } from "react-redux";
 import { signOut } from "next-auth/client";
@@ -28,9 +30,9 @@ const Header = () => {
       <div className="container">
         <div className="col-3 p-0">
           <div className="navbar-brand">
-            <Link href="/">
-              <img
-                style={{ cursor: "pointer" }}
+            <Link href="/" passHref>
+              <Image
+                className={styles.clickableImage}
                 src="/images/myDemo_logo.png"
                 alt="myDemo"
               />
@@ -49,7 +51,7 @@ const Header = () => {
                 aria-expanded="false"
               >
                 <figure className="avatar avatar-nav">
-                  <img
+                  <Image
                     src={
                       (data.user?.avatar && data.user?.avatar.url) ??
                       "/images/default_avatar.jpg"

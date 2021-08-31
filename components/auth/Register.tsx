@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { useRouter } from "next/router";
-
+import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
+import { useRouter } from "next/router";
+import Image from "next/image";
+
 import ButtonLoader from "../layout/ButtonLoader";
 
-import { useDispatch, useSelector } from "react-redux";
 import { registerUserThunk } from "../../redux/actions/userAsyncThunkActions";
 import { authSlice } from "../../redux/slices/userSlices";
 
@@ -38,7 +39,7 @@ const Register = () => {
       toast.error(error);
       dispatch(authSlice.actions.clearErrors());
     }
-  }, [dispatch, success, error]);
+  }, [dispatch, success, error, router]);
 
   const submitHandler = (e) => {
     e.preventDefault();
@@ -132,7 +133,7 @@ const Register = () => {
               <div className="d-flex align-items-center">
                 <div>
                   <figure className="avatar mr-3 item-rtl">
-                    <img
+                    <Image
                       src={avatarPreview}
                       className="rounded-circle"
                       alt="image"

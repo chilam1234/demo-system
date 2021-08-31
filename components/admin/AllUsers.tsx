@@ -27,7 +27,7 @@ const AllUsers = () => {
   );
   useEffect(() => {
     dispatch(getAdminUsersThunk());
-  }, []);
+  }, [dispatch]);
 
   useEffect(() => {
     if (error) {
@@ -44,7 +44,7 @@ const AllUsers = () => {
       router.push("/admin/users");
       dispatch(userSlice.actions.resetDeletedUser());
     }
-  }, [dispatch, error, isDeleted, deleteError]);
+  }, [dispatch, error, isDeleted, deleteError, router]);
 
   const setUsers = () => {
     const data = {

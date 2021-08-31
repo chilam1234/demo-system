@@ -8,7 +8,11 @@ import Loader from "../layout/Loader";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 
-import { getAdminRooms, deleteRoom } from "../../redux/actions/roomActions";
+import {
+  getAdminRooms,
+  deleteRoom,
+  clearErrors,
+} from "../../redux/actions/roomActions";
 import { DELETE_ROOM_RESET } from "../../redux/constants/roomConstants";
 
 const AllRooms = () => {
@@ -27,7 +31,7 @@ const AllRooms = () => {
     }
 
     if (deleteError) {
-      toast.erroe(deleteError);
+      toast.error(deleteError);
       dispatch(clearErrors());
     }
 
@@ -35,7 +39,7 @@ const AllRooms = () => {
       router.push("/admin/rooms");
       dispatch({ type: DELETE_ROOM_RESET });
     }
-  }, [dispatch, deleteError, isDeleted]);
+  }, [dispatch, deleteError, isDeleted, error, router]);
 
   const setRooms = () => {
     const data = {

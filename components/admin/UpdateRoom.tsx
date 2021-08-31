@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
+import Image from "next/image";
 
 import ButtonLoader from "../layout/ButtonLoader";
 import Loader from "../layout/Loader";
@@ -65,7 +66,7 @@ const UpdateRoom = () => {
       router.push("/admin/rooms");
       dispatch({ type: UPDATE_ROOM_RESET });
     }
-  }, [dispatch, error, roomDetailsError, isUpdated, room, id]);
+  }, [dispatch, error, roomDetailsError, isUpdated, room, id, router]);
 
   const submitHandler = (e) => {
     e.preventDefault();
@@ -115,7 +116,7 @@ const UpdateRoom = () => {
               <form
                 className="shadow-lg"
                 onSubmit={submitHandler}
-                enctype="multipart/form-data"
+                encType="multipart/form-data"
               >
                 <h1 className="mb-4">Update Room</h1>
                 <div className="form-group">
@@ -145,7 +146,7 @@ const UpdateRoom = () => {
                   <textarea
                     className="form-control"
                     id="description_field"
-                    rows="8"
+                    rows={8}
                     value={description}
                     onChange={(e) => setDescription(e.target.value)}
                     required
@@ -212,7 +213,7 @@ const UpdateRoom = () => {
                   </div>
 
                   {imagesPreview.map((img) => (
-                    <img
+                    <Image
                       src={img}
                       key={img}
                       alt="Images Preview"
@@ -224,7 +225,7 @@ const UpdateRoom = () => {
 
                   {oldImages &&
                     oldImages.map((img) => (
-                      <img
+                      <Image
                         src={img.url}
                         key={img.public_id}
                         alt="Images Preview"

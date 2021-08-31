@@ -37,7 +37,7 @@ const MyBookings = () => {
       toast.info("Successfully Deleted");
       dispatch({ type: DELETE_BOOKING_RESET });
     }
-  }, [dispatch, deleteError, isDeleted]);
+  }, [dispatch, deleteError, isDeleted, error, router]);
 
   const deleteBookingHandler = (id) => {
     dispatch(deleteBooking(id));
