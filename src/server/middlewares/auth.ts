@@ -1,6 +1,6 @@
 import { getSession } from "next-auth/client";
 
-import ErrorHandler from "../src/server/utils/errorHandler";
+import ErrorHandler from "../utils/errorHandler";
 
 const isAuthenticatedUser = async (req, _, next) => {
   const session = await getSession({ req });

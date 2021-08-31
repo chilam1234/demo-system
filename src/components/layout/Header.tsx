@@ -31,13 +31,7 @@ const Header = () => {
         <div className="col-3 p-0">
           <div className="navbar-brand">
             <Link href="/" passHref>
-              <Image
-                className={styles.clickableImage}
-                src="/images/myDemo_logo.png"
-                alt="myDemo"
-                height={20}
-                width={20}
-              />
+              Demo System
             </Link>
           </div>
         </div>
@@ -62,6 +56,7 @@ const Header = () => {
                     className="rounded-circle"
                     height={50}
                     width={50}
+                    layout="responsive"
                   />
                 </figure>
                 <span>{data.user && data.user.name}</span>

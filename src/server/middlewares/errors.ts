@@ -1,4 +1,4 @@
-import ErrorHandler from "../src/server/utils/errorHandler";
+import ErrorHandler from "../utils/errorHandler";
 
 const handleError = (err, _, res) => {
   err.statusCode = err.statusCode || 500;

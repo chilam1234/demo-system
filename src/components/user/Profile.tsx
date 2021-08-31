@@ -137,6 +137,7 @@ const Profile = () => {
                           alt="image"
                           width={300}
                           height={200}
+                          layout="responsive"
                         />
                       </figure>
                     </div>
