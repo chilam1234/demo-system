@@ -4,6 +4,7 @@
 ```bash
 # spin up the mongo db
 docker-compose up -d 
+DB_CONNECTION= "mongodb=//root=example@localhost:27017"
 ```
 
 2. Set up cloudinary credential by setting these env 
