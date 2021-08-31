@@ -4,10 +4,10 @@ import nc from "next-connect";
 import {
   deleteBooking,
   getBookingDetails,
-} from "../../../controllers/bookingControllers";
-import dbConnect from "../../../lib/dbConnect";
-import { isAuthenticatedUser } from "../../../middlewares/auth";
-import onError from "../../../middlewares/errors";
+} from "../../../../controllers/bookingControllers";
+import dbConnect from "../../../../lib/dbConnect";
+import { isAuthenticatedUser } from "../../../../middlewares/auth";
+import onError from "../../../../middlewares/errors";
 
 const handler = nc<NextApiRequest, NextApiResponse>({ onError });
 

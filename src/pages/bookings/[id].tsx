@@ -1,10 +1,10 @@
 import { getSession } from "next-auth/client";
 import React from "react";
 
-import BookingDetails from "../../components/booking/BookingDetails";
-import Layout from "../../components/layout/Layout";
-import { getBookingDetails } from "../../redux/actions/bookingActions";
-import { wrapper } from "../../redux/store";
+import BookingDetails from "../../../components/booking/BookingDetails";
+import Layout from "../../../components/layout/Layout";
+import { getBookingDetails } from "../../../redux/actions/bookingActions";
+import { wrapper } from "../../../redux/store";
 
 const BookingDetailsPage = () => {
   return (

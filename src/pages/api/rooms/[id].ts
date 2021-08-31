@@ -5,10 +5,13 @@ import {
   getSingleRoom,
   updateRoom,
   deleteRoom,
-} from "../../../controllers/roomControllers";
-import dbConnect from "../../../lib/dbConnect";
-import { isAuthenticatedUser, authorizeRoles } from "../../../middlewares/auth";
-import onError from "../../../middlewares/errors";
+} from "../../../../controllers/roomControllers";
+import dbConnect from "../../../../lib/dbConnect";
+import {
+  isAuthenticatedUser,
+  authorizeRoles,
+} from "../../../../middlewares/auth";
+import onError from "../../../../middlewares/errors";
 
 const handler = nc<NextApiRequest, NextApiResponse>({ onError });
 

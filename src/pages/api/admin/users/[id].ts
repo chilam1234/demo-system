@@ -5,13 +5,13 @@ import {
   getUserDetails,
   updateUser,
   deleteUser,
-} from "../../../../controllers/authControllers";
-import dbConnect from "../../../../lib/dbConnect";
+} from "../../../../../controllers/authControllers";
+import dbConnect from "../../../../../lib/dbConnect";
 import {
   isAuthenticatedUser,
   authorizeRoles,
-} from "../../../../middlewares/auth";
-import onError from "../../../../middlewares/errors";
+} from "../../../../../middlewares/auth";
+import onError from "../../../../../middlewares/errors";
 
 const handler = nc<NextApiRequest, NextApiResponse>({ onError });
 
