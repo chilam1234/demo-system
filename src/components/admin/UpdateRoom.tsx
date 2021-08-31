@@ -8,8 +8,8 @@ import {
   updateRoom,
   getRoomDetails,
   clearErrors,
-} from "../../../redux/actions/roomActions";
-import { UPDATE_ROOM_RESET } from "../../../redux/constants/roomConstants";
+} from "../../redux/actions/roomActions";
+import { UPDATE_ROOM_RESET } from "../../redux/constants/roomConstants";
 import ButtonLoader from "../layout/ButtonLoader";
 import Loader from "../layout/Loader";
 

@@ -9,9 +9,9 @@ import {
   getAdminBookings,
   deleteBookingByAdmin,
   clearErrors,
-} from "../../../redux/actions/bookingActions";
-import { DELETE_BOOKING_RESET } from "../../../redux/constants/bookingConstants";
-import { RootState } from "../../../redux/store";
+} from "../../redux/actions/bookingActions";
+import { DELETE_BOOKING_RESET } from "../../redux/constants/bookingConstants";
+import { RootState } from "../../redux/store";
 import Loader from "../layout/Loader";
 
 const AllBookings = () => {

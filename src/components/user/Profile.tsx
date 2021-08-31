@@ -7,9 +7,9 @@ import { toast } from "react-toastify";
 import {
   updateUserThunk,
   loadUserThunk,
-} from "../../../redux/actions/userAsyncThunkActions";
-import { userSlice } from "../../../redux/slices/userSlices";
-import { RootState } from "../../../redux/store";
+} from "../../redux/actions/userAsyncThunkActions";
+import { userSlice } from "../../redux/slices/userSlices";
+import { RootState } from "../../redux/store";
 import ButtonLoader from "../layout/ButtonLoader";
 import Loader from "../layout/Loader";
 

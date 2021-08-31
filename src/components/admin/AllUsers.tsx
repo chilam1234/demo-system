@@ -8,9 +8,9 @@ import { toast } from "react-toastify";
 import {
   deleteUserThunk,
   getAdminUsersThunk,
-} from "../../../redux/actions/userAsyncThunkActions";
-import { userSlice } from "../../../redux/slices/userSlices";
-import { RootState } from "../../../redux/store";
+} from "../../redux/actions/userAsyncThunkActions";
+import { userSlice } from "../../redux/slices/userSlices";
+import { RootState } from "../../redux/store";
 import Loader from "../layout/Loader";
 
 const AllUsers = () => {

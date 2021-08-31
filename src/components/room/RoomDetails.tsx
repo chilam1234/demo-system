@@ -13,10 +13,10 @@ import {
   checkBooking,
   createBooking,
   getBookedDates,
-} from "../../../redux/actions/bookingActions";
-import { clearErrors } from "../../../redux/actions/roomActions";
-import { CHECK_BOOKING_RESET } from "../../../redux/constants/bookingConstants";
-import { RootState } from "../../../redux/store";
+} from "../../redux/actions/bookingActions";
+import { clearErrors } from "../../redux/actions/roomActions";
+import { CHECK_BOOKING_RESET } from "../../redux/constants/bookingConstants";
+import { RootState } from "../../redux/store";
 import BookingCalendar from "../booking/BookingCalendar";
 import RoomFeatures from "./RoomFeatures";
 

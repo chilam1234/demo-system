@@ -3,9 +3,9 @@ import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 
-import { resetPasswordThunk } from "../../../redux/actions/userAsyncThunkActions";
-import { forgotPasswordSlice } from "../../../redux/slices/userSlices";
-import { RootState } from "../../../redux/store";
+import { resetPasswordThunk } from "../../redux/actions/userAsyncThunkActions";
+import { forgotPasswordSlice } from "../../redux/slices/userSlices";
+import { RootState } from "../../redux/store";
 import ButtonLoader from "../layout/ButtonLoader";
 
 const NewPassword = () => {

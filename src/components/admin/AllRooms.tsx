@@ -9,8 +9,8 @@ import {
   getAdminRooms,
   deleteRoom,
   clearErrors,
-} from "../../../redux/actions/roomActions";
-import { DELETE_ROOM_RESET } from "../../../redux/constants/roomConstants";
+} from "../../redux/actions/roomActions";
+import { DELETE_ROOM_RESET } from "../../redux/constants/roomConstants";
 import Loader from "../layout/Loader";
 
 const AllRooms = () => {
